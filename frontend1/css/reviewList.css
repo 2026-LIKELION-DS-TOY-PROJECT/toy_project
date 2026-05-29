@@ -1,5 +1,5 @@
 :root {
-    --bg-color: #FCFBF7;
+    /* --bg-color: ##FEFDF7; */
     --navy-primary: #0A2563;
     --text-muted: #8E8E8E;
     --border-color: #A6B4C9;
@@ -14,19 +14,20 @@
 }
 
 body {
-    background-color: var(--bg-color);
+    /* background-color: var(--bg-color); */
+    background-color: #FEFDF7;
     color: #333;
 }
 
 /* 네비게이션 바 (기존과 동일) */
 .navbar {
-    background-color: #fff;
+    /* background-color: #fff; */
     border-bottom: 1px solid #EAEAEA;
     padding: 15px 0;
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -34,7 +35,7 @@ body {
     padding: 0 20px;
 }
 
-.logo {
+/* .logo {
     display: flex;
     align-items: center;
     font-size: 20px;
@@ -44,12 +45,12 @@ body {
 .logo-icon {
     margin-right: 5px;
     font-size: 24px;
-}
+} */
 
 .nav-links a {
     text-decoration: none;
     color: #555;
-    margin: 0 20px;
+    margin: 0 80px;
     font-weight: 500;
     font-size: 16px;
     padding-bottom: 8px;
@@ -58,21 +59,29 @@ body {
 .nav-links a.active {
     color: var(--navy-primary);
     border-bottom: 3px solid var(--navy-primary);
+    padding-bottom: 28px;
     font-weight: bold;
 }
 
-.nav-icons span {
+/* .nav-icons span {
     font-size: 20px;
     margin-left: 15px;
+    cursor: pointer;
+} */
+
+.nav-icons{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
     cursor: pointer;
 }
 
 
 .main-layout {
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 50px 200px;
     display: flex;
-    gap: 40px;
+    gap: 150px;
     padding: 0 20px;
 }
 
@@ -88,7 +97,8 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    gap: 10px;
 }
 
 .sidebar-title .arrow-down {
@@ -108,21 +118,21 @@ body {
     color: #555;
     font-size: 15px;
     display: block;
-    padding: 6px 0;
+    padding: 6px 10px;
     transition: color 0.2s ease;
 }
 
 .sidebar-menu li.active a,
 .sidebar-menu a:hover {
     color: var(--navy-primary);
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 /* 액티브 메뉴 */
 .sidebar-menu li.active a {
     background-color: var(--navy-primary);
     color: white !important;
-    padding: 8px 15px;
+    padding: 8px 10px;
     border-radius: 6px;
 }
 
@@ -164,7 +174,7 @@ body {
     width: 100%;
     height: 42px;
     padding: 0 45px 0 20px;
-    border: 1px solid var(--border-color);
+    border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 14px;
     outline: none;
@@ -203,7 +213,20 @@ body {
     padding-left: 5px;
 }
 
+.tab-btn1{
+    background: none;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: -13px;
+}
+
 .tab-btn {
+    color: #000;
     background: none;
     border: none;
     font-size: 14px;
@@ -212,11 +235,13 @@ body {
     font-weight: 500;
 }
 
+
 .tab-btn.active {
     color: #000;
     font-weight: bold;
-    border-bottom: 2px solid #000;
-    padding-bottom: 2px;
+    /* border-bottom: 2px solid #000; */
+    padding-bottom: 10px;
+    margin-bottom: -13px;
 }
 
 .tab-btn span {
@@ -227,14 +252,23 @@ body {
 .board-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
-    border-top: 2px solid #333;
+    background-color: #FEFDF7;
+    /* border-top: 2px solid #333; */
     margin-bottom: 30px;
+}
+
+.board-table tr{
+    height: 30px;
+    /* padding: 7px 5px; */
+}
+
+.board-table td{
+    padding: 19px 10px;
 }
 
 .board-table th, 
 .board-table td {
-    padding: 12px 10px;
+    /* padding: 12px 10px; */
     font-size: 14px;
     border-bottom: 1px solid #EAEAEA;
     vertical-align: middle;
@@ -244,6 +278,8 @@ body {
     background-color: var(--table-header-bg);
     color: #333;
     font-weight: bold;
+    padding: 9px 5px;
+
 }
 
 .board-table td a {
@@ -257,14 +293,9 @@ body {
 
 /* 특정 열 특성 정렬 스타일 */
 .txt-center { text-align: center; }
-.font-bold { font-weight: bold; }
 .text-muted { color: var(--text-muted); }
 .text-danger { color: #D9383A; font-weight: 500; }
 
-/* 공지사항 행 하이라이트 스타일 */
-.notice-row {
-    background-color: #F9F9F9;
-}
 
 /* 하단 페이지네이션 */
 .pagination {
@@ -275,7 +306,7 @@ body {
     margin-top: 20px;
 }
 
-.page-num, .page-arrow {
+.page-num, .page-arrow, .page-arrow1 {
     background: none;
     border: none;
     width: 28px;
@@ -287,6 +318,10 @@ body {
     align-items: center;
     border-radius: 4px;
     color: #555;
+}
+
+.page-arrow1{
+    transform: scaleX(-1);
 }
 
 .page-num.active {

@@ -12,7 +12,8 @@
     <header class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <span class="logo-icon">🦁</span> <strong>멋사대학교</strong>
+                <img src="../img/1968aca1-6184-4799-a8ac-c3e90184cdc8 1.svg" clss="logo-icon" width="170">
+                <!-- <span class="logo-icon">🦁</span> <strong>멋사대학교</strong> -->
             </div>
             <nav class="nav-links">
                 <a href="#" class="active">게시판</a>
@@ -21,19 +22,26 @@
                 <a href="#">학점계산기</a>
             </nav>
             <div class="nav-icons">
-                <span class="icon-bell">🔔</span>
-                <span class="icon-user">👤</span>
+                <!-- <span class="icon-bell">🔔</span>
+                <span class="icon-user">👤</span> -->
+                <div><img src="../img/fluent_alert-48-regular.svg"  width="25"></div>
+                <div><img src="../img/material-symbols_person.svg"   width="25"></div>
             </div>
         </div>
     </header>
 
     <main class="container">
         <div class="back-button-container">
-            <button type="button" class="btn-back" onclick="history.back();">&lt; 목록으로</button>
+            <button type="button" class="btn-back" onclick="history.back();">
+                <img src="../img/weui_arrow-filled.svg"  width="10">
+                목록으로
+            </button>
         </div>
 
         <section class="form-header">
-            <h2>시험후기 작성하기 <span class="edit-icon">✏️</span></h2>
+            <h2>시험후기 작성하기 <span class="edit-icon">
+                <img src="../img/icon-park-outline_write.svg"  width="23">
+            </span></h2>
         </section>
 
         <form action="" method="POST" class="review-form">

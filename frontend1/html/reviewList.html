@@ -12,7 +12,8 @@
     <header class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <span class="logo-icon">🦁</span> <strong>멋사대학교</strong>
+                <!-- <span class="logo-icon">🦁</span> <strong>멋사대학교</strong> -->
+                <img src="../img/1968aca1-6184-4799-a8ac-c3e90184cdc8 1.svg" clss="logo-icon" width="170">
             </div>
             <nav class="nav-links">
                 <a href="#" class="active">게시판</a>
@@ -21,8 +22,10 @@
                 <a href="#">학점계산기</a>
             </nav>
             <div class="nav-icons">
-                <span class="icon-bell">🔔</span>
-                <span class="icon-user">👤</span>
+                <!-- <span class="icon-bell">🔔</span>
+                <span class="icon-user">👤</span> -->
+                <div><img src="../img/fluent_alert-48-regular.svg"  width="25"></div>
+                <div><img src="../img/material-symbols_person.svg"  width="25"></div>
             </div>
         </div>
     </header>
@@ -49,14 +52,16 @@
                 <form action="" method="GET" class="search-form">
                     <div class="search-input-wrapper">
                         <input type="text" name="q" placeholder="제목, 과목명, 내용을 입력하세요.">
-                        <button type="submit" class="btn-search">🔍</button>
+                        <button type="submit" class="btn-search">
+                            <img src="../img/material-symbols_search.svg"  width="22">
+                        </button>
                     </div>
                 </form>
                 <a href="./reviewWrite.html" class="btn-write">후기 작성하기</a>
             </div>
 
             <div class="filter-tabs">
-                <button type="button" class="tab-btn active" data-filter="all">전체</button>
+                <button type="button" class="tab-btn1" data-filter="all">전체</button>
                 <button type="button" class="tab-btn" data-filter="latest">최신순 <span>▼</span></button>
                 <button type="button" class="tab-btn" data-filter="recommend">추천순</button>
             </div>
@@ -89,7 +94,10 @@
                         <td class="txt-center">김현수</td>
                         <td class="txt-center">UIUX</td>
                         <td class="txt-center text-muted">2026.03.05</td>
-                        <td class="txt-center text-danger">❤️ 7</td>
+                        <td class="txt-center text-danger">
+                            <img src="../img/mdi_heart.svg"  width="15">
+                            7
+                        </td>
                         <td class="txt-center text-muted">15</td>
                     </tr>
                     <tr>
@@ -98,7 +106,9 @@
                         <td class="txt-center">이영희</td>
                         <td class="txt-center">회계원리</td>
                         <td class="txt-center text-muted">2026.02.03</td>
-                        <td class="txt-center text-danger">❤️ 9</td>
+                        <td class="txt-center text-danger">
+                            <img src="../img/mdi_heart.svg"  width="15">
+                            9</td>
                         <td class="txt-center text-muted">20</td>
                     </tr>
                     <tr>
@@ -107,7 +117,9 @@
                         <td class="txt-center">김도현</td>
                         <td class="txt-center">데이터사이언스</td>
                         <td class="txt-center text-muted">2025.12.16</td>
-                        <td class="txt-center text-danger">❤️ 4</td>
+                        <td class="txt-center text-danger"> 
+                            <img src="../img/mdi_heart.svg"  width="15">
+                            4</td>
                         <td class="txt-center text-muted">17</td>
                     </tr>
                     <tr>
@@ -116,7 +128,9 @@
                         <td class="txt-center">김정우</td>
                         <td class="txt-center">C언어</td>
                         <td class="txt-center text-muted">2025.12.05</td>
-                        <td class="txt-center text-danger">❤️ 10</td>
+                        <td class="txt-center text-danger">
+                            <img src="../img/mdi_heart.svg"  width="15">
+                            10</td>
                         <td class="txt-center text-muted">36</td>
                     </tr>
                     <tr>
@@ -125,20 +139,26 @@
                         <td class="txt-center">이지안</td>
                         <td class="txt-center">확률과통계</td>
                         <td class="txt-center text-muted">2025.09.13</td>
-                        <td class="txt-center text-danger">❤️ 27</td>
+                        <td class="txt-center text-danger">
+                            <img src="../img/mdi_heart.svg"  width="15">
+                            27</td>
                         <td class="txt-center text-muted">45</td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="pagination">
-                <button type="button" class="page-arrow">&lt;</button>
+                <button type="button" class="page-arrow">
+                    <img src="../img/weui_arrow-filled (1).svg" width="10">
+                </button>
                 <button type="button" class="page-num active">1</button>
                 <button type="button" class="page-num">2</button>
                 <button type="button" class="page-num">3</button>
                 <button type="button" class="page-num">4</button>
                 <button type="button" class="page-num">5</button>
-                <button type="button" class="page-arrow">&gt;</button>
+                <button type="button" class="page-arrow1">
+                    <img src="../img/weui_arrow-filled (1).svg" width="10">
+                </button>
             </div>
         </main>
     </div>
