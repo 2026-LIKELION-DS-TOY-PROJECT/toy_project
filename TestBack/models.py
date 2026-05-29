@@ -30,3 +30,26 @@ class Test(models.Model):
 
     def __str__(self):
         return f"[{self.course.subject}] {self.title}"
+
+class Comment(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    
+    content = models.TextField()
+    is_anonymous = models.BooleanField(default=False)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_comments', blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def get_anonymous_number(self):
+        users = Comment.objects.filter(
+            test=self.test,
+            is_anonymous=True
+        ).order_by('created_at').values_list('user_id', flat=True)
+        ordered = list(dict.fromkeys(users))
+        return ordered.index(self.user_id) + 1
+
+    def __str__(self):
+        return f"[{self.test.title}] {self.content[:20]}"

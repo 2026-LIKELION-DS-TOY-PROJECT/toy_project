@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
-from .models import Test, Course
+from .models import Test, Course, Comment
 
 @login_required
 def test_create(request):
@@ -125,3 +125,51 @@ def test_scrap(request, pk):
     else:
         test.scraps.add(request.user)
     return redirect('TestBack:test_detail', pk=pk)
+
+
+@login_required
+def comment_create(request, pk):
+    test = get_object_or_404(Test, pk=pk)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        is_anonymous = request.POST.get('is_anonymous') == 'on'
+        parent_id = request.POST.get('parent_id')  # 대댓글이면 값 있음
+
+        Comment.objects.create(
+            test=test,
+            user=request.user,
+            content=content,
+            is_anonymous=is_anonymous,
+            parent_id=parent_id if parent_id else None
+        )
+    return redirect('TestBack:test_detail', pk=pk)
+
+
+@login_required
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if comment.user == request.user:
+        comment.delete()
+    return redirect('TestBack:test_detail', pk=comment.test.pk)
+
+
+@login_required
+def comment_update(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if comment.user != request.user:
+        return redirect('TestBack:test_detail', pk=comment.test.pk)
+
+    if request.method == 'POST':
+        comment.content = request.POST.get('content')
+        comment.save()
+    return redirect('TestBack:test_detail', pk=comment.test.pk)
+
+
+@login_required
+def comment_like(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if comment.likes.filter(id=request.user.id).exists():
+        comment.likes.remove(request.user)
+    else:
+        comment.likes.add(request.user)
+    return redirect('TestBack:test_detail', pk=comment.test.pk)
