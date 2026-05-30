@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>에브리타임 로그인 클론</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <!-- 이미지도 넣기!! -->
+            <p class="logo-subtext">함께하는 대학생활</p>
+            <div class="mainContainer">
+                <img src="{% static 'img/nav.logo.png' %}" class="logoImg" alt="로고"/>
+                <h1 class="logo-main">에브리타임</h1>
+            </div>
+            
+        </div>
+
+        <form method='post' action={% url 'accounts:login' %} id="loginForm" class="form-box">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input name="username" type="text" id="userId" placeholder="아이디" class="input-field">
+            <input name="password" type="password" id="userPw" placeholder="비밀번호" class="input-field">
+            <input type="submit" id="loginBtn" value="에브리타임 로그인" class="submit-btn" disabled>
+        </form>
+
+        <div class="signup-section">
+            <a href="{% url 'accounts:signup' %}">회원가입</a>
+        </div>
+
+        <footer class="footer-links">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">문의하기</a>
+            <a href="#" class="copyright">© 에브리타임</a>
+        </footer>
+    </div>
+
+    <script src="{% static 'js.login.js' %}"></script>
+</body>
+</html>

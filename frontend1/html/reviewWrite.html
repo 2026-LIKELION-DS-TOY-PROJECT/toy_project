@@ -1,18 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>멋사대학교 - 시험후기 작성하기</title>
-    <link rel="stylesheet" href="../css/reviewWrite.css">
-    <script src="../js/reviewWrite.js" defer></script>
+    <link rel="stylesheet" href="{% static 'css/reviewWrite.css' %}">
+    <script src="{% static 'js/reviewWrite.js' %}" defer></script>
 </head>
 <body>
 
     <header class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <img src="../img/1968aca1-6184-4799-a8ac-c3e90184cdc8 1.svg" clss="logo-icon" width="170">
+                <img src="{% static 'img/1968aca1-6184-4799-a8ac-c3e90184cdc8 1.svg' %}" clss="logo-icon" width="170">
                 <!-- <span class="logo-icon">🦁</span> <strong>멋사대학교</strong> -->
             </div>
             <nav class="nav-links">
@@ -24,8 +25,8 @@
             <div class="nav-icons">
                 <!-- <span class="icon-bell">🔔</span>
                 <span class="icon-user">👤</span> -->
-                <div><img src="../img/fluent_alert-48-regular.svg"  width="25"></div>
-                <div><img src="../img/material-symbols_person.svg"   width="25"></div>
+                <div><img src="{% static 'img/fluent_alert-48-regular.svg' %}"  width="25"></div>
+                <div><img src="{% static 'img/material-symbols_person.svg' %}"   width="25"></div>
             </div>
         </div>
     </header>
@@ -33,14 +34,14 @@
     <main class="container">
         <div class="back-button-container">
             <button type="button" class="btn-back" onclick="history.back();">
-                <img src="../img/weui_arrow-filled.svg"  width="10">
+                <img src="{% static 'img/weui_arrow-filled.svg' %}"  width="10">
                 목록으로
             </button>
         </div>
 
         <section class="form-header">
             <h2>시험후기 작성하기 <span class="edit-icon">
-                <img src="../img/icon-park-outline_write.svg"  width="23">
+                <img src="{% static 'img/icon-park-outline_write.svg' %}"  width="23">
             </span></h2>
         </section>
 
