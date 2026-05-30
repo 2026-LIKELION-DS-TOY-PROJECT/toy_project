@@ -1,5 +1,5 @@
 from django.db import models
-from django.conf import settings # 💡 유저 모델 참조를 위해 불러옵니다.
+from django.conf import settings
 
 class Course(models.Model):
     course_number = models.CharField(max_length=20, unique=True, help_text="과목 번호 (학수번호)")
@@ -21,6 +21,7 @@ class Test(models.Model):
     content = models.TextField(help_text="총평 및 내용")
     views = models.PositiveIntegerField(default=0, help_text="조회수")
     
+    # settings.AUTH_USER_MODEL을 쓰고 계셔서 유저 클래스를 지워도 아무 문제 없이 작동합니다!
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tests', help_text="작성자")
     created_at = models.DateTimeField(auto_now_add=True, help_text="작성일시")
 
@@ -30,14 +31,25 @@ class Test(models.Model):
     def __str__(self):
         return f"[{self.course.subject}] {self.title}"
 
-
 class Comment(models.Model):
-    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='comments', help_text="해당 시험 후기글")
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments', help_text="댓글 작성자")
-    content = models.TextField(help_text="댓글 내용")
-    is_anonymous = models.BooleanField(default=True, help_text="익명 여부")
-    created_at = models.DateTimeField(auto_now_add=True, help_text="작성일시")
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    
+    content = models.TextField()
+    is_anonymous = models.BooleanField(default=False)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_comments', blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def get_anonymous_number(self):
+        users = Comment.objects.filter(
+            test=self.test,
+            is_anonymous=True
+        ).order_by('created_at').values_list('user_id', flat=True)
+        ordered = list(dict.fromkeys(users))
+        return ordered.index(self.user_id) + 1
 
     def __str__(self):
-        return f"{'익명' if self.is_anonymous else self.user.username} - {self.content[:10]}"
+        return f"[{self.test.title}] {self.content[:20]}"

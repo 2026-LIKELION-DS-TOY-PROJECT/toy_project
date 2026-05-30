@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        {% if user.is_authenticated %}
+            {{ user.username }} 님 | 
+            <a href="{% url 'users:logout' %}">로그아웃</a>
+        {% else %}
+            <a href="{% url 'users:login' %}">로그인</a> | 
+            <a href="{% url 'users:signup' %}">회원가입</a>
+        {% endif %}
+    </p>
+
+    <p><a href="{% url 'TestBack:test_list' %}">&lt; 목록으로</a></p>
+
+    <h1>{{ test.title }}</h1>
+    <p>
+        {{ test.course.subject }} | 
+        {{ test.user.grade }}학년 | {{ test.created_at|date:"Y.m.d H:i" }} | 조회 {{ test.views }}
+    </p>
+
+    {% if test.user == user %}
+        <p>
+            <a href="{% url 'TestBack:test_update' test.pk %}">수정하기</a>
+            <form action="{% url 'TestBack:test_delete' test.pk %}" method="post" style="display:inline;" onsubmit="return confirm('게시글을 삭제하시겠습니까?\n삭제된 게시글은 복구할 수 없습니다.');">
+                {% csrf_token %}
+                <button type="submit">삭제하기</button>
+            </form>
+        </p>
+    {% endif %}
+
+    <hr>
+
+    <p><strong>시험 난이도</strong></p>
+    <p>평점: {{ test.rating }}.0 / 5.0</p>
+
+    <p><strong>시험 유형</strong></p>
+    <p>{{ test.test_format }} ({{ test.exam_type }})</p>
+
+    <p><strong>총평</strong></p>
+    <p>{{ test.content }}</p>
+
+    <hr>
+
+    <p>
+        {% if user.is_authenticated %}
+            {% if user in test.likes.all %}
+                <a href="{% url 'TestBack:test_like' test.pk %}" style="text-decoration: none;">❤️ 좋아요 취소 {{ test.likes.count }}</a>
+            {% else %}
+                <a href="{% url 'TestBack:test_like' test.pk %}" style="text-decoration: none;">💔 좋아요 {{ test.likes.count }}</a>
+            {% endif %}
+            
+            | 
+            
+            {% if user in test.scraps.all %}
+                <a href="{% url 'TestBack:test_scrap' test.pk %}" style="text-decoration: none;">📁 스크랩 취소 {{ test.scraps.count }}</a>
+            {% else %}
+                <a href="{% url 'TestBack:test_scrap' test.pk %}" style="text-decoration: none;">📁 스크랩 {{ test.scraps.count }}</a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'TestBack:test_like' test.pk %}" style="text-decoration: none;">💔 좋아요 {{ test.likes.count }}</a> | 
+            <a href="{% url 'TestBack:test_scrap' test.pk %}" style="text-decoration: none;">📁 스크랩 {{ test.scraps.count }}</a>
+        {% endif %}
+    </p>
+
+    <hr>
+
+    <p><strong>이 작성자의 다른 글</strong></p>
+    <ul>
+        {% for other_test in author_other_tests %}
+            <li>
+                <a href="{% url 'TestBack:test_detail' other_test.pk %}">{{ other_test.title }}</a> 
+                ({{ other_test.created_at|date:"Y.m.d" }} | 조회 {{ other_test.views }})
+            </li>
+        {% empty %}
+            <li>다른 글이 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <p><strong>댓글 {{ test.comments.count }}</strong></p>
+
+    {% for comment in test.comments.all %}
+        {% if comment.parent is None %}
+            <div>
+                <p>
+                    {% if comment.is_anonymous %}
+                        익명{{ comment.get_anonymous_number }}
+                    {% else %}
+                        {{ comment.user.username }}
+                        {% if comment.user == test.user %}(작성자){% endif %}
+                    {% endif %}
+                    | {{ comment.created_at|date:"Y.m.d H:i" }}
+                    {% if comment.user == user %}
+                        <form action="{% url 'TestBack:comment_delete' comment.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">삭제하기</button>
+                        </form>
+                    {% endif %}
+                </p>
+                <p>{{ comment.content }}</p>
+                <p>
+                    <a href="{% url 'TestBack:comment_like' comment.id %}">👍 {{ comment.likes.count }}</a>
+                </p>
+
+                {% for reply in comment.replies.all %}
+                    <div style="margin-left: 30px;">
+                        <p>
+                            {% if reply.is_anonymous %}
+                                익명{{ reply.get_anonymous_number }}
+                            {% else %}
+                                {{ reply.user.username }}
+                                {% if reply.user == test.user %}(작성자){% endif %}
+                            {% endif %}
+                            | {{ reply.created_at|date:"Y.m.d H:i" }}
+                            {% if reply.user == user %}
+                                <form action="{% url 'TestBack:comment_delete' reply.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit">삭제하기</button>
+                                </form>
+                            {% endif %}
+                        </p>
+                        <p>{{ reply.content }}</p>
+                        <p>
+                            <a href="{% url 'TestBack:comment_like' reply.id %}">👍 {{ reply.likes.count }}</a>
+                        </p>
+                    </div>
+                {% endfor %}
+
+                {% if user.is_authenticated %}
+                    <form action="{% url 'TestBack:comment_create' test.pk %}" method="post" style="margin-left: 30px;">
+                        {% csrf_token %}
+                        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                        <input type="text" name="content" placeholder="대댓글을 입력하세요.">
+                        <label><input type="checkbox" name="is_anonymous"> 익명</label>
+                        <button type="submit">등록</button>
+                    </form>
+                {% endif %}
+            </div>
+            <hr>
+        {% endif %}
+    {% empty %}
+        <p>첫 댓글을 남겨주세요.</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <form action="{% url 'TestBack:comment_create' test.pk %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="parent_id" value="">
+            <input type="text" name="content" placeholder="댓글을 입력하세요.">
+            <label><input type="checkbox" name="is_anonymous"> 익명</label>
+            <button type="submit">등록</button>
+        </form>
+    {% endif %}
+</body>
+</html>
