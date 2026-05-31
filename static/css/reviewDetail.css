@@ -270,9 +270,6 @@ header {
     margin-top: 10px;
 }
 
-.comment-count {
-
-}
 
 .comment-like {
     text-decoration: none;
@@ -321,13 +318,6 @@ header {
     align-items: center;
 }
 
-.comment-like-img {
-
-}
-
-.comment-like-count {
-
-}
 
 
 
@@ -431,10 +421,6 @@ header {
 
 .anonym-check {
     cursor: pointer;
-}
-
-.anonym-text {
-
 }
 
 .submit {

@@ -74,6 +74,7 @@ body {
     justify-content: center;
     gap: 10px;
     cursor: pointer;
+    align-items: center;
 }
 
 
