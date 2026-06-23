@@ -184,3 +184,7 @@ cython_debug/
 
 # google cloud vision
 service_account.json
+
+
+# Django static files
+staticfiles/
