@@ -36,20 +36,23 @@ def test_create(request):
             return redirect('TestBack:test_detail', pk=test.pk)
             
         except IntegrityError:
-            response_html = """
-            <script>
-                alert("⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.");
-                history.back();
-            </script>
-            """
+            response_html = "<script>alert('⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.');history.back();</script>"
             return HttpResponse(response_html)
         
     return render(request, 'TestBack/test_form.html')
 
 def test_detail(request, pk):
     test = get_object_or_404(Test, pk=pk)
-    test.views += 1
-    test.save()
+    
+    skip_view = request.session.pop('skip_view_count', False)
+    
+    if not skip_view:
+        if request.user.is_authenticated and test.user != request.user:
+            test.views += 1
+            test.save()
+        elif not request.user.is_authenticated:
+            test.views += 1
+            test.save()
     
     author_other_tests = Test.objects.filter(user=test.user).exclude(pk=pk).order_by('-created_at')[:3]
     
@@ -134,6 +137,8 @@ def test_like(request, pk):
         test.likes.remove(request.user)
     else:
         test.likes.add(request.user)
+        
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=pk)
 
 @login_required
@@ -148,8 +153,9 @@ def test_scrap(request, pk):
         test.scraps.remove(request.user)
     else:
         test.scraps.add(request.user)
+        
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=pk)
-
 
 @login_required
 def comment_create(request, pk):
@@ -166,16 +172,16 @@ def comment_create(request, pk):
             is_anonymous=is_anonymous,
             parent_id=parent_id if parent_id else None
         )
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=pk)
-
 
 @login_required
 def comment_delete(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if comment.user == request.user:
         comment.delete()
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
-
 
 @login_required
 def comment_update(request, comment_id):
@@ -186,8 +192,8 @@ def comment_update(request, comment_id):
     if request.method == 'POST':
         comment.content = request.POST.get('content')
         comment.save()
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
-
 
 @login_required
 def comment_like(request, comment_id):
@@ -196,4 +202,6 @@ def comment_like(request, comment_id):
         comment.likes.remove(request.user)
     else:
         comment.likes.add(request.user)
+    # 🌟 댓글 좋아요 시 조회수 스킵
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
