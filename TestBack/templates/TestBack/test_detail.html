@@ -87,14 +87,25 @@
                     </div>
                     
                     <div class="btns">
-                        <a href="{% url 'TestBack:test_like' test.pk %}" class="like" style="text-decoration:none; color:inherit;">
-                            <img src="{% static 'img/like.svg' %}" alt="좋아요">
-                            <span class="btn-text">좋아요</span>
-                        </a>
-                        <a href="{% url 'TestBack:test_scrap' test.pk %}" class="scrap">
-                            <img src="{% static 'img/scrap.svg' %}" alt="스크랩">
-                            <span class="btn-text">스크랩</span>
-                        </a>
+                        {% if user == test.user %}
+                            <div class="like" onclick="openWarningModal('like')">
+                                <img src="{% static 'img/like.svg' %}" alt="좋아요">
+                                <span class="btn-text">좋아요 {{ test.likes.count }}</span>
+                            </div>
+                            <div class="scrap" onclick="openWarningModal('scrap')">
+                                <img src="{% static 'img/scrap.svg' %}" alt="스크랩">
+                                <span class="btn-text">스크랩 {{ test.scraps.count }}</span>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'TestBack:test_like' test.pk %}" class="like">
+                                <img src="{% static 'img/like.svg' %}" alt="좋아요">
+                                <span class="btn-text">좋아요 {{ test.likes.count }}</span>
+                            </a>
+                            <a href="{% url 'TestBack:test_scrap' test.pk %}" class="scrap">
+                                <img src="{% static 'img/scrap.svg' %}" alt="스크랩">
+                                <span class="btn-text">스크랩 {{ test.scraps.count }}</span>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </article>
@@ -280,6 +291,13 @@
                 <button type="button" class="btn-cancel" onclick="closeCommentDeleteModal()">취소</button>
                 <button type="button" class="btn-delete" onclick="confirmCommentDelete()">삭제</button>
             </div>
+        </div>
+    </div>
+
+    <div class="delete-modal-wrap" id="warning-modal-wrap">
+        <div class="modal-content warning-modal-content">
+            <img src="{% static 'img/warning_navy.svg' %}" alt="경고" class="modal-warning-icon">
+            <div class="warning-q" id="warning-modal-text">경고 메시지</div>
         </div>
     </div>
     <script src="{% static 'js/reviewDetail.js' %}"></script>
