@@ -27,8 +27,8 @@
             <article class="post">
                 <div class="post-header">
                     <div class="list-btn">
-                        <img class="list-arrow" src="{% static 'img/list_btn_arrow.svg' %}" alt="화살표">
-                        <a href="{% url 'TestBack:test_list' %}" class="to-list" style="text-decoration: none;">목록으로</a>
+                        <img class="list-arrow" src="{% static 'img/list_arrow_black.svg' %}" alt="화살표">
+                        <a href="{% url 'TestBack:test_list' %}" class="to-list">목록으로</a>
                     </div>
 
                     <div class="title">{{ test.title }}</div>
@@ -43,7 +43,7 @@
                         </div>
                         {% if user == test.user %}
                         <div class="modifies">
-                            <a href="{% url 'TestBack:test_update' test.pk %}" class="modify" style="text-decoration:none; color:inherit; align-items: center;">수정하기</a>
+                            <a href="{% url 'TestBack:test_update' test.pk %}" class="modify">수정하기</a>
                             
                             <form id="delete-form-post-{{ test.pk }}" action="{% url 'TestBack:test_delete' test.pk %}" method="post" style="display: inline; margin: 0; padding: 0;">
                                 {% csrf_token %}
@@ -57,17 +57,32 @@
                 <div class="post-content">
                     <div class="difficulty">
                         <div class="heading">시험 난이도</div>
-                        <div class="rating">평점: {{ test.rating }}.0/5.0</div>
+                        <div id="rating-wrap" class="explain">
+                            <span class="level">쉬움 &lt;-</span>
+                            
+                            <div class="stars">
+                                <span class="star">{% if test.rating >= 1 %}★{% else %}☆{% endif %}</span>
+                                <span class="star">{% if test.rating >= 2 %}★{% else %}☆{% endif %}</span>
+                                <span class="star">{% if test.rating >= 3 %}★{% else %}☆{% endif %}</span>
+                                <span class="star">{% if test.rating >= 4 %}★{% else %}☆{% endif %}</span>
+                                <span class="star">{% if test.rating >= 5 %}★{% else %}☆{% endif %}</span>
+                            </div>
+                            
+                            <span class="level">-&gt; 어려움</span>
+
+                            <div>{{}}</div>
+                        </div>
                     </div>
+
                     <div class="type">
                         <div class="heading">시험 유형</div>
-                        <div class="text">
+                        <div id="text" class="explain">
                             <span>{{ test.test_format }} ({{ test.exam_type }})</span>
                         </div>
                     </div>
                     <div class="overall">
                         <div class="heading">총평</div>
-                        <div class="overall-text">
+                        <div id="overall-text" class="explain">
                             <div>{{ test.content }}</div>
                         </div>
                     </div>
@@ -75,16 +90,12 @@
                     <div class="btns">
                         <a href="{% url 'TestBack:test_like' test.pk %}" class="like" style="text-decoration:none; color:inherit;">
                             <img src="{% static 'img/like.svg' %}" alt="좋아요">
-                            <span class="btn-text">좋아요 {{ test.likes.count }}</span>
+                            <span class="btn-text">좋아요</span>
                         </a>
                         <a href="{% url 'TestBack:test_scrap' test.pk %}" class="scrap">
                             <img src="{% static 'img/scrap.svg' %}" alt="스크랩">
-                            <span class="btn-text">스크랩 {{ test.scraps.count }}</span>
+                            <span class="btn-text">스크랩</span>
                         </a>
-                        <div class="share">
-                            <img src="{% static 'img/share.svg' %}" alt="공유하기">
-                            <span class="btn-text">공유하기</span>
-                        </div>
                     </div>
                 </div>
             </article>
