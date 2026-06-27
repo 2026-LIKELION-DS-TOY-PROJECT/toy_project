@@ -523,6 +523,10 @@ header {
     gap: 10px;
 }
 
+.hidden-article {
+    display: none !important; /* 더보기 버튼 누르기 전까진 hide */
+}
+
 .aside-article {
     margin-bottom: 15px;
     margin-top: 15px;
@@ -557,6 +561,7 @@ header {
     background: #0A2E65;
     color:#fff;
     margin-top: 20px;
+    cursor: pointer;
 }
 
 

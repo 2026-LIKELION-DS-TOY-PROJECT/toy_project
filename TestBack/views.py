@@ -54,7 +54,7 @@ def test_detail(request, pk):
             test.views += 1
             test.save()
     
-    author_other_tests = Test.objects.filter(user=test.user).exclude(pk=pk).order_by('-created_at')[:3]
+    author_other_tests = Test.objects.filter(user=test.user).exclude(pk=pk).order_by('-created_at')
 
     # 수정할 댓글 불러오기
     edit_comment = None
