@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <header class="navbar">
+    {% comment %} <header class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <img src="{% static 'img/1968aca1-6184-4799-a8ac-c3e90184cdc8 1.svg' %}" class="logo-icon" width="170">
@@ -33,6 +33,20 @@
                 <div><img src="{% static 'img/fluent_alert-48-regular.svg' %}" width="25"></div>
                 <div><img src="{% static 'img/material-symbols_person.svg' %}" width="25"></div>
             </div>
+        </div>
+    </header> {% endcomment %}
+
+    <header class="header">
+        <img class="logo-img" src="{% static 'img/logo.svg' %}" alt="로고 이미지">
+        <div class="banner">
+            <span class="current-banner">게시판</span>
+            <span class="other-banner">강의실</span>
+            <span class="other-banner">시간표</span>
+            <span class="other-banner">학점계산기</span>
+        </div>
+        <div class="users-menu">
+            <img class="alert" src="{% static 'img/alert.svg' %}" alt="알림 이미지">
+            <img class="profile-picture" src="{% static 'img/profile_pic.svg' %}" alt="프로필 사진">
         </div>
     </header>
 
