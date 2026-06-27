@@ -4,6 +4,9 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from .models import Test, Course, Comment
 
+from django.db import IntegrityError
+from django.http import HttpResponse
+
 @login_required
 def test_create(request):
     if request.method == 'POST':
@@ -20,24 +23,36 @@ def test_create(request):
             professor=professor_name,
             defaults={'course_number': f"TEMP_{subject_name}"}
         )
-        
-        test = Test.objects.create(
-            course=course,
-            exam_type=exam_type,
-            test_format=test_format,
-            rating=int(rating),
-            title=title,
-            content=content,
-            user=request.user
-        )
-        return redirect('TestBack:test_detail', pk=test.pk)
+        try:
+            test = Test.objects.create(
+                course=course,
+                exam_type=exam_type,
+                test_format=test_format,
+                rating=int(rating),
+                title=title,
+                content=content,
+                user=request.user
+            )
+            return redirect('TestBack:test_detail', pk=test.pk)
+            
+        except IntegrityError:
+            response_html = "<script>alert('⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.');history.back();</script>"
+            return HttpResponse(response_html)
         
     return render(request, 'TestBack/test_form.html')
 
 def test_detail(request, pk):
     test = get_object_or_404(Test, pk=pk)
-    test.views += 1
-    test.save()
+    
+    skip_view = request.session.pop('skip_view_count', False)
+    
+    if not skip_view:
+        if request.user.is_authenticated and test.user != request.user:
+            test.views += 1
+            test.save()
+        elif not request.user.is_authenticated:
+            test.views += 1
+            test.save()
     
     author_other_tests = Test.objects.filter(user=test.user).exclude(pk=pk).order_by('-created_at')[:3]
     
@@ -95,6 +110,8 @@ def test_list(request):
         
     if sort == 'likes':
         tests = tests.annotate(like_count=Count('likes')).order_by('-like_count', '-created_at')
+    elif sort == 'views':
+        tests = tests.annotate(like_count=Count('likes')).order_by('-views', '-created_at')
     else:
         tests = tests.annotate(like_count=Count('likes')).order_by('-created_at')
         
@@ -111,21 +128,34 @@ def test_list(request):
 @login_required
 def test_like(request, pk):
     test = get_object_or_404(Test, pk=pk)
+    
+    if test.user == request.user:
+        response_html = "<script>alert('❌ 본인 글에는 좋아요를 누를 수 없습니다.');history.back();</script>"
+        return HttpResponse(response_html)
+        
     if test.likes.filter(id=request.user.id).exists():
         test.likes.remove(request.user)
     else:
         test.likes.add(request.user)
+        
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=pk)
 
 @login_required
 def test_scrap(request, pk):
     test = get_object_or_404(Test, pk=pk)
+    
+    if test.user == request.user:
+        response_html = "<script>alert('❌ 본인 글은 스크랩할 수 없습니다.');history.back();</script>"
+        return HttpResponse(response_html)
+        
     if test.scraps.filter(id=request.user.id).exists():
         test.scraps.remove(request.user)
     else:
         test.scraps.add(request.user)
+        
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=pk)
-
 
 @login_required
 def comment_create(request, pk):
@@ -133,7 +163,7 @@ def comment_create(request, pk):
     if request.method == 'POST':
         content = request.POST.get('content')
         is_anonymous = request.POST.get('is_anonymous') == 'on'
-        parent_id = request.POST.get('parent_id')  # 대댓글이면 값 있음
+        parent_id = request.POST.get('parent_id') 
 
         Comment.objects.create(
             test=test,
@@ -142,16 +172,16 @@ def comment_create(request, pk):
             is_anonymous=is_anonymous,
             parent_id=parent_id if parent_id else None
         )
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=pk)
-
 
 @login_required
 def comment_delete(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if comment.user == request.user:
         comment.delete()
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
-
 
 @login_required
 def comment_update(request, comment_id):
@@ -162,8 +192,8 @@ def comment_update(request, comment_id):
     if request.method == 'POST':
         comment.content = request.POST.get('content')
         comment.save()
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
-
 
 @login_required
 def comment_like(request, comment_id):
@@ -172,4 +202,6 @@ def comment_like(request, comment_id):
         comment.likes.remove(request.user)
     else:
         comment.likes.add(request.user)
+    # 🌟 댓글 좋아요 시 조회수 스킵
+    request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
