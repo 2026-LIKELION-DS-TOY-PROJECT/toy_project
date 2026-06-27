@@ -73,20 +73,6 @@ function toggleReplyForm(commentId) {
     }
 }
 
-// 댓글 & 대댓글 삭제 시 기본 confirm 창 띄우기
-document.addEventListener("DOMContentLoaded", function () {
-    const deleteForms = document.querySelectorAll(".delete-comment-form");
-
-    deleteForms.forEach((form) => {
-        form.addEventListener("submit", function (event) {
-            // confirm 창에서 '취소'를 누르면 폼 전송을 막음(preventDefault)
-            if (!confirm("정말 삭제하시겠습니까?")) {
-                event.preventDefault();
-            }
-        });
-    });
-});
-
 
 
 
@@ -107,3 +93,41 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+
+
+function openDeleteModal() {
+    const modal = document.querySelector('.delete-modal-wrap');
+    if (modal) modal.style.display = 'flex';
+}
+function closeDeleteModal() {
+    const modal = document.querySelector('.delete-modal-wrap');
+    if (modal) modal.style.display = 'none';
+}
+function confirmDelete(testPk) {
+    const form = document.getElementById('delete-form-post-' + testPk);
+    if (form) form.submit();
+}
+
+// 삭제할 댓글's 폼 ID 임시 저장할 변수
+let targetCommentFormId = null;
+
+function openCommentDeleteModal(formId) {
+    targetCommentFormId = formId; // 클릭한 폼의 ID를 기억
+    const modal = document.getElementById('comment-delete-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeCommentDeleteModal() {
+    targetCommentFormId = null; // 취소하면 기억 지움
+    const modal = document.getElementById('comment-delete-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+function confirmCommentDelete() {
+    if (targetCommentFormId) {
+        // 기억해둔 폼 찾아서 실제로 삭제 진행
+        const form = document.getElementById(targetCommentFormId);
+        if (form) form.submit();
+    }
+}

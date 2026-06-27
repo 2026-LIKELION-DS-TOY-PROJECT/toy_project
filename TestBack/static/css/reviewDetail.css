@@ -289,6 +289,7 @@ header {
 .comment-like {
     text-decoration: none;
     color: inherit;
+    gap: 3px;
 }
 
 .single-comment, .single-reply {
@@ -309,6 +310,7 @@ header {
 .comment-text, .reply {
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* 남은 가로 공간 다 차지하게*/
 }
 
 .anonym{
@@ -457,7 +459,7 @@ header {
 .comment-header, .reply-bar {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     margin-bottom: 6px;
 }
 
@@ -470,14 +472,19 @@ header {
 .action-btn {
     background: none;
     border: none;
-    color: #999;
+    color: rgba(0, 0, 0, 0.41);
     font-size: 12px;
-    font-weight: 500;
     cursor: pointer;
     padding: 0;
+    text-decoration:none; 
 }
+
 .action-btn:hover {
     color: #333;
+}
+
+.delete-comment-form {
+    display: inline;
 }
 
 .single-reply, .new-reply-wrap {
