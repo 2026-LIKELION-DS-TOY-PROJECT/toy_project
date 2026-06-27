@@ -116,20 +116,24 @@ header {
     height: 25px;
     display: flex;
     border-radius: 10px;
-    background-color: #0a2e65;
+    border: 1px solid #0a2e65;
+    background-color: transparent;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
 .list-arrow {
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
+    margin-right: 3px;
 }
+
 .to-list {
-    color: #fff;
+    color: #000;
     font-size: 18px;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .title {
@@ -162,18 +166,17 @@ header {
     padding: 1px 4px;
     justify-content: center;
     border-radius: 10px;
-    border: 1px solid #0a2e65;
     font-size: 16px;
     cursor: pointer;
     box-sizing: border-box;
     align-items: center;
     padding: 0;
     font-size: 16px;
+    text-decoration:none; 
+    color:inherit; 
+    font-weight: 500;
 }
 
-.delete {
-    border: 1px solid #cf2e2e;
-}
 
 
 
@@ -194,14 +197,34 @@ header {
 
 .heading{
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
-.rating{
-    font-size: 16px;
+.explain {
+    margin: 10px 0 0 40px;
+
+}
+#rating-wrap{
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
 }
 
-.text{
+.level {
+    font-size: 10px;
+}
+
+.stars {
+    display: flex;
+    gap: 10px;
+}
+
+.star {
+    color: #0A2E65;
+    font-size: 24px;
+}
+
+#text{
     font-size: 16px;
 }
 
@@ -215,7 +238,7 @@ header {
 
 }
 
-.overall-text{
+#overall-text{
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -225,29 +248,21 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    gap: 10px;
 }
 
 
-.like, .scrap, .share{
+.like, .scrap{
     display: flex;
     align-items: center;
-    border-radius: 10px;
-    border: 1px solid #000;
     justify-content: center;
     text-decoration: none;
     color: inherit;
+    gap: 5px;
 }
 
 .like, .scrap {
     width: 90px;
     height: 23px;
-    cursor: pointer;
-}
-
-.share {
-    width: 90px;
-    height:23px;
     cursor: pointer;
 }
 
@@ -622,8 +637,9 @@ header {
 }
 
 .btn-delete {
-    background: #0A2E65;
+    background: #f00;
     color: #fff;
+    border: none;
 }
 
 
