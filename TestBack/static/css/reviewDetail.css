@@ -309,6 +309,7 @@ header {
 .comment-text, .reply {
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* 남은 가로 공간 다 차지하게*/
 }
 
 .anonym{
@@ -457,7 +458,7 @@ header {
 .comment-header, .reply-bar {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     margin-bottom: 6px;
 }
 
