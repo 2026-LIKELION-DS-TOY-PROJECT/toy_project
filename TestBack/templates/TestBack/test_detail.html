@@ -70,7 +70,6 @@
                             
                             <span class="level">-&gt; 어려움</span>
 
-                            <div>{{}}</div>
                         </div>
                     </div>
 
@@ -236,26 +235,27 @@
             <p class="more">이 작성자가 쓴 다른 글</p>
 
             {% for my_post in author_other_tests %}
-            <div class="single-article">
-                <div class="aside-article">
-                    <div class="aside-title">{{ my_post.title }}</div>
-                    <div class="aside-info">
-                        <span class="aside-time">{{ my_post.created_at|date:"Y.m.d H:i" }}</span>
-                        <span>조회 {{ my_post.views }}</span>
+                <div class="single-article {% if forloop.counter > 3 %}hidden-article{% endif %}">
+                    <div class="aside-article">
+                        <div class="aside-title">{{ my_post.title }}</div>
+                        <div class="aside-info">
+                            <span class="aside-time">{{ my_post.created_at|date:"Y.m.d H:i" }}</span>
+                            <span>조회 {{ my_post.views }}</span>
+                        </div>
                     </div>
+                    <a href="{% url 'TestBack:test_detail' my_post.pk %}">
+                        <img class="aside-arrow" src="{% static 'img/aside_arrow.svg' %}" alt="화살표">
+                    </a>
                 </div>
-                <a href="{% url 'TestBack:test_detail' my_post.pk %}">
-                    <img class="aside-arrow" src="{% static 'img/aside_arrow.svg' %}" alt="화살표">
-                </a>
-            </div>
-            
             {% empty %}
-            <div class="single-article">
-                <div class="aside-title">아직 작성한 다른 글이 없습니다.</div>
-            </div>
+                <div class="single-article">
+                    <div class="aside-title">아직 작성한 다른 글이 없습니다.</div>
+                </div>
             {% endfor %}
 
-            <button type="button" class="aside-button">더보기</button>
+            {% if author_other_tests|length > 3 %}
+                <button type="button" class="aside-button" id="load-more-btn">더보기</button>
+            {% endif %}
         </aside>
     </div>
 

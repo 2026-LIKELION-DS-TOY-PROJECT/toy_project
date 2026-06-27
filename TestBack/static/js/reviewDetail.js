@@ -86,3 +86,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    
+    // 더보기 버튼이 화면에 존재할 때만 실행
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener("click", () => {
+            const hiddenArticles = document.querySelectorAll(".hidden-article"); // 숨겨진 모든 hidden-article 찾아서
+            
+            hiddenArticles.forEach(article => {
+                article.classList.remove("hidden-article"); // 찾은 게시글들의 숨김 처리 제거해 화면에 보여줌
+            });
+            
+            loadMoreBtn.style.display = "none"; // 더이상 보여줄 글 없으므로 더보기 버튼 자체가 안 보이게
+        });
+    }
+});
