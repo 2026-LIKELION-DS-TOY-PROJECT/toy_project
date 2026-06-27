@@ -128,10 +128,10 @@
                                 <button type="button" class="action-btn" onclick="toggleReplyForm('{{ comment.id }}')">대댓글</button>
                                 
                                 {% if user == comment.user %}
-                                <a href="?edit_comment={{ comment.id }}" class="action-btn" style="text-decoration:none; color:inherit;">수정하기</a>
-                                <form action="{% url 'TestBack:comment_delete' comment.id %}" method="post" class="delete-comment-form" style="display: inline;">
+                                <a href="?edit_comment={{ comment.id }}" class="action-btn">수정하기</a>
+                                <form id="form-comment-{{ comment.id }}" action="{% url 'TestBack:comment_delete' comment.id %}" method="post" class="delete-comment-form">
                                     {% csrf_token %}
-                                    <button type="submit" class="action-btn" style="background: none; border: none; cursor: pointer; padding: 0; font-family: inherit;">삭제하기</button>
+                                    <button type="button" class="action-btn" onclick="openCommentDeleteModal('form-comment-{{ comment.id }}')">삭제하기</button>
                                 </form>
                                 {% endif %}
                             </div>
@@ -179,10 +179,10 @@
                             </span>
                             {% if user == reply.user %}
                             <div class="reply-modifies">
-                                <a href="?edit_comment={{ reply.id }}" class="action-btn" style="text-decoration:none; color:inherit;">수정하기</a>
-                                <form action="{% url 'TestBack:comment_delete' reply.id %}" method="post" class="delete-comment-form" style="display: inline;">
+                                <a href="?edit_comment={{ reply.id }}" class="action-btn">수정하기</a>
+                                <form id="form-reply-{{ reply.id }}" action="{% url 'TestBack:comment_delete' reply.id %}" method="post" class="delete-comment-form" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="action-btn" style="background: none; border: none; cursor: pointer; padding: 0; font-family: inherit;">삭제하기</button>
+                                    <button type="button" class="action-btn" onclick="openCommentDeleteModal('form-reply-{{ reply.id }}')" style="background: none; border: none; cursor: pointer; padding: 0; font-family: inherit;">삭제하기</button>
                                 </form>
                             </div>
                             {% endif %}
@@ -271,6 +271,18 @@
         </div>
     </div>
 
+    <div class="delete-modal-wrap" id="comment-delete-modal" style="display: none;">
+        <div class="modal-content">
+            <img src="{% static 'img/warning.svg' %}" alt="경고" class="modal-warning-icon">
+            <div class="warning-q">댓글을 삭제하시겠습니까?</div>
+            <div class="modal-desc">삭제된 댓글은 복구할 수 없습니다.</div>
+            <div class="modal-btns">
+                <button type="button" class="btn-cancel" onclick="closeCommentDeleteModal()">취소</button>
+                <button type="button" class="btn-delete" onclick="confirmCommentDelete()">삭제</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openDeleteModal() {
             const modal = document.querySelector('.delete-modal-wrap');
@@ -283,6 +295,29 @@
         function confirmDelete(testPk) {
             const form = document.getElementById('delete-form-post-' + testPk);
             if (form) form.submit();
+        }
+
+        // 삭제할 댓글's 폼 ID 임시 저장할 변수
+        let targetCommentFormId = null;
+
+        function openCommentDeleteModal(formId) {
+            targetCommentFormId = formId; // 클릭한 폼의 ID를 기억
+            const modal = document.getElementById('comment-delete-modal');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeCommentDeleteModal() {
+            targetCommentFormId = null; // 취소하면 기억 지움
+            const modal = document.getElementById('comment-delete-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function confirmCommentDelete() {
+            if (targetCommentFormId) {
+                // 기억해둔 폼 찾아서 실제로 삭제 진행
+                const form = document.getElementById(targetCommentFormId);
+                if (form) form.submit();
+            }
         }
     </script>
     <script src="{% static 'js/reviewDetail.js' %}"></script>

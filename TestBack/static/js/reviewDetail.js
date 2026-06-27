@@ -73,20 +73,6 @@ function toggleReplyForm(commentId) {
     }
 }
 
-// 댓글 & 대댓글 삭제 시 기본 confirm 창 띄우기
-document.addEventListener("DOMContentLoaded", function () {
-    const deleteForms = document.querySelectorAll(".delete-comment-form");
-
-    deleteForms.forEach((form) => {
-        form.addEventListener("submit", function (event) {
-            // confirm 창에서 '취소'를 누르면 폼 전송을 막음(preventDefault)
-            if (!confirm("정말 삭제하시겠습니까?")) {
-                event.preventDefault();
-            }
-        });
-    });
-});
-
 
 
 
