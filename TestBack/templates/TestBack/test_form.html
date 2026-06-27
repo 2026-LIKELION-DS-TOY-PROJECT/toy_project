@@ -1,10 +1,121 @@
+{% comment %} <!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <p>
+            {% if user.is_authenticated %} {{ user.username }} 님 |
+            <a href="{% url 'users:logout' %}">로그아웃</a>
+            {% else %}
+            <a href="{% url 'users:login' %}">로그인</a> |
+            <a href="{% url 'users:signup' %}">회원가입</a>
+            {% endif %}
+        </p>
+
+        <p><a href="{% url 'TestBack:test_list' %}">&lt; 목록으로</a></p>
+
+        <h1>시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label>과목명 *</label>
+                <input
+                    type="text"
+                    name="subject"
+                    value="{{ test.course.subject|default:'' }}"
+                    placeholder="과목명을 입력하세요."
+                    required
+                />
+            </p>
+            <p>
+                <label>교수님 *</label>
+                <input
+                    type="text"
+                    name="professor"
+                    value="{{ test.course.professor|default:'' }}"
+                    placeholder="입력하세요."
+                    required
+                />
+            </p>
+            <p>
+                <label>시험종류 *</label>
+                <input
+                    type="text"
+                    name="exam_type"
+                    value="{{ test.exam_type|default:'' }}"
+                    placeholder="ex)중간고사"
+                    required
+                />
+            </p>
+            <p>
+                <label>시험유형 *</label>
+                <input
+                    type="text"
+                    name="test_format"
+                    value="{{ test.test_format|default:'' }}"
+                    placeholder="ex)객관식/주관식"
+                    required
+                />
+            </p>
+            <p>
+                <label>난이도 *</label>
+                <input
+                    type="number"
+                    name="rating"
+                    value="{{ test.rating|default:3 }}"
+                    min="1"
+                    max="5"
+                    placeholder="1부터 5사이 숫자로 입력"
+                    required
+                />
+            </p>
+            <p>
+                <label>제목 *</label>
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ test.title|default:'' }}"
+                    placeholder="제목을 입력하세요. (최대 100자)"
+                    required
+                />
+            </p>
+            <p>
+                <label>총평 *</label>
+                <textarea
+                    name="content"
+                    placeholder="최대 10000자까지 입력 가능합니다."
+                    required
+                >
+    {{ test.content|default:'' }}</textarea
+                >
+            </p>
+
+            <p>
+                <button type="submit">
+                    {% if test %}수정완료{% else %}작성완료{% endif %}
+                </button>
+                {% if test %}
+                <a href="{% url 'TestBack:test_detail' test.pk %}">취소</a>
+                {% else %}
+                <a href="{% url 'TestBack:test_list' %}">취소</a>
+                {% endif %}
+            </p>
+        </form>
+    </body>
+</html> {% endcomment %}
+
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>멋사대학교 - 시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}</title>
+    <title>멋사대학교 - 시험후기 작성하기</title>
     <link rel="stylesheet" href="{% static 'css/reviewWrite.css' %}">
     <script src="{% static 'js/reviewWrite.js' %}" defer></script>
 </head>
@@ -30,8 +141,8 @@
                     <a href="{% url 'users:login' %}" style="font-size: 13px; color: #555; text-decoration: none; margin-right: 10px;">로그인</a>
                     <a href="{% url 'users:signup' %}" style="font-size: 13px; color: #555; text-decoration: none; margin-right: 15px;">회원가입</a>
                 {% endif %}
-                <div><img src="{% static 'img/fluent_alert-48-regular.svg' %}" width="25"></div>
-                <div><img src="{% static 'img/material-symbols_person.svg' %}" width="25"></div>
+                <div><img src="{% static 'img/fluent_alert-48-regular.svg' %}"  width="25"></div>
+                <div><img src="{% static 'img/material-symbols_person.svg' %}"   width="25"></div>
             </div>
         </div>
     </header>
@@ -39,7 +150,7 @@
     <main class="container">
         <div class="back-button-container">
             <button type="button" class="btn-back" onclick="history.back();">
-                <img src="{% static 'img/weui_arrow-filled.svg' %}" width="10">
+                <img src="{% static 'img/weui_arrow-filled.svg' %}"  width="10">
                 목록으로
             </button>
         </div>
@@ -47,83 +158,43 @@
         <section class="form-header">
             <h2>시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}
                 <span class="edit-icon">
-                    <img src="{% static 'img/icon-park-outline_write.svg' %}" width="23">
+                    <img src="{% static 'img/icon-park-outline_write.svg' %}"  width="23">
                 </span>
             </h2>
         </section>
 
         <form action="" method="post" class="review-form">
             {% csrf_token %}
-
-            <!-- 수강학기 선택 (드롭다운) -->
-            <div class="form-group-full">
-                <label for="semester">수강학기 *</label>
-                <select id="semester" name="semester" required>
-                    <option value="">수강학기를 선택하세요.</option>
-                    {% for sem in semesters %}
-                    <option value="{{ sem.pk }}"
-                        {% if test.semester.pk == sem.pk %}selected{% endif %}>
-                        {{ sem.name }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- 학과 선택 (드롭다운) -->
-            <div class="form-group-full">
-                <label for="department">학과선택 *</label>
-                <select id="department" name="department" required>
-                    <option value="">학과를 선택하세요.</option>
-                    {% for dept in departments %}
-                    <option value="{{ dept.pk }}"
-                        {% if test.department.pk == dept.pk %}selected{% endif %}>
-                        {{ dept.name }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- 교수 선택 (드롭다운) - data-department 속성으로 JS 필터링 -->
-            <div class="form-group-full">
-                <label for="professor">교수님 선택 *</label>
-                <select id="professor" name="professor" required>
-                    <option value="">교수님을 선택하세요.</option>
-                    {% for prof in professors %}
-                    <option value="{{ prof.pk }}"
-                            data-department="{{ prof.department.pk }}"
-                        {% if test.professor.pk == prof.pk %}selected{% endif %}>
-                        {{ prof.name }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- 과목명 (직접 입력) -->
-            <div class="form-group-full">
-                <label for="course_name">과목명 *</label>
-                <input type="text" id="course_name" name="subject"
-                    value="{{ test.course.name|default:'' }}"
-                    placeholder="과목명을 직접 입력하세요." required>
-            </div>
-
             <div class="form-grid">
+                <div class="form-group">
+                    <label for="course_name">과목명 *</label>
+                    <input type="text" id="course_name" name="subject"
+                    value="{{ test.course.subject|default:'' }}" placeholder="과목명을 입력하세요." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="professor">교수님 *</label>
+                    <input type="text" id="professor" name="professor"
+                    value="{{ test.course.professor|default:'' }}" placeholder="입력하세요." required>
+                </div>
+
                 <div class="form-group">
                     <label for="exam_type">시험종류 *</label>
                     <input type="text" id="exam_type" name="exam_type"
-                        value="{{ test.exam_type|default:'' }}" placeholder="ex) 중간고사" required>
+                    value="{{ test.exam_type|default:'' }}" placeholder="ex) 중간고사" required>
                 </div>
 
                 <div class="form-group">
                     <label for="exam_format">시험유형 *</label>
                     <input type="text" id="exam_format" name="test_format"
-                        value="{{ test.test_format|default:'' }}" placeholder="ex) 객관식/주관식" required>
+                    value="{{ test.test_format|default:'' }}" placeholder="ex) 객관식/주관식" required>
                 </div>
             </div>
 
-            <!-- 난이도 별점 -->
             <div class="form-group-full rating-container">
                 <label>난이도 *</label>
                 <input type="hidden" id="difficulty" name="rating" value="{{ test.rating|default:3 }}">
+                
                 <div class="star-rating">
                     <span class="star" data-value="1">{% if test.rating >= 1 %}★{% else %}☆{% endif %}</span>
                     <span class="star" data-value="2">{% if test.rating >= 2 %}★{% else %}☆{% endif %}</span>
@@ -133,27 +204,20 @@
                 </div>
             </div>
 
-            <!-- 제목 -->
             <div class="form-group-full">
                 <label for="title">제목 *</label>
                 <input type="text" id="title" name="title"
-                    value="{{ test.title|default:'' }}" maxlength="100"
-                    placeholder="제목을 입력하세요. (최대 100자)" required>
+                    value="{{ test.title|default:'' }}" maxlength="100" placeholder="제목을 입력하세요. (최대 100자)" required>
             </div>
 
-            <!-- 총평 -->
             <div class="form-group-full">
                 <label for="content">총평 *</label>
                 <div class="textarea-wrapper">
-                    <textarea id="content" name="content" maxlength="1000"
-                        placeholder="최대 1000자까지 입력 가능합니다." required>{{ test.content|default:'' }}</textarea>
-                    <span class="char-count">
-                        <span id="current-chars">{{ test.content|length|default:0 }}</span>/1000
-                    </span>
+                    <textarea id="content" name="content" maxlength="1000" placeholder="최대 1000자까지 입력 가능합니다." required>{{ test.content|default:'' }}</textarea>
+                    <span class="char-count"><span id="current-chars">{{ test.content|length|default:0 }}</span>/1000</span>
                 </div>
             </div>
 
-            <!-- 버튼 -->
             <div class="button-group">
                 <button type="button" class="btn-cancel" onclick="history.back();">
                     {% if test %}

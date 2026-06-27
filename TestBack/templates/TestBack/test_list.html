@@ -57,7 +57,7 @@
                         >
                     </td>
                     <td>{{ test.user.username }}</td>
-                    <td>{{ test.course.name }}</td>
+                    <td>{{ test.course.subject }}</td>
                     <td>{{ test.created_at|date:"Y.m.d" }}</td>
                     <td>{{ test.likes.count }}</td>
                     <td>{{ test.views }}</td>
@@ -203,7 +203,7 @@
                                 <a href="{% url 'TestBack:test_detail' test.pk %}">{{ test.title }}</a>
                             </td>
                             <td class="txt-center">{{ test.user.username }}</td>
-                            <td class="txt-center">{{ test.course.name }}</td>
+                            <td class="txt-center">{{ test.course.subject }}</td>
                             <td class="txt-center text-muted">{{ test.created_at|date:"Y.m.d" }}</td>
                             <td class="txt-center text-danger">
                                 <img src="{% static 'img/mdi_heart.svg' %}"  width="15">

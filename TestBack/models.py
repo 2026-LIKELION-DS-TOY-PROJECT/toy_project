@@ -16,21 +16,19 @@ class Semester(models.Model):
         return self.name
 
 
-class Professor(models.Model):
-    # Course가 아닌 Department에 종속 (학과 → 교수 → 과목)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='professors')
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.department.name} - {self.name}"
-
-
 class Course(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='courses')
-    # 어떤 교수가 가르치는지 연결
-    professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, blank=True, related_name='courses')
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100) 
+    
     semesters = models.ManyToManyField(Semester, related_name='courses', blank=True, help_text="개설된 수강 학기 목록")
+
+    def __str__(self):
+        return self.name
+
+
+class Professor(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='professors')
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -47,31 +45,31 @@ class ExamReview(models.Model):
     ]
 
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
-    professor = models.ForeignKey(Professor, on_delete=models.PROTECT)
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
-    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, related_name='exam_reviews', help_text="수강 학기")
-
-    difficulty = models.IntegerField()
-    exam_info = models.TextField(max_length=500)
-    exam_type = models.CharField(max_length=20, choices=EXAM_TYPE_CHOICES)
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT)
+    
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, related_name='exam_reviews', help_text="수강 학기") 
+    
+    difficulty = models.IntegerField()       
+    exam_info = models.TextField(max_length=500) 
+    exam_type = models.CharField(max_length=20, choices=EXAM_TYPE_CHOICES) 
     review = models.TextField(max_length=10000)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Test(models.Model):
-    department = models.ForeignKey(Department, on_delete=models.PROTECT, null=True, blank=True, help_text="학과")
-    professor = models.ForeignKey(Professor, on_delete=models.PROTECT, null=True, blank=True, help_text="교수")
-    course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='tests', help_text="대상 과목")
+    course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='tests', help_text="대상 과목 선택")
+    
     semester = models.ForeignKey(Semester, on_delete=models.PROTECT, null=True, blank=True, related_name='tests', help_text="시험 치른 학기")
-
+    
     exam_type = models.CharField(max_length=20, help_text="시험 종류 (중간/기말 등)")
     test_format = models.CharField(max_length=50, help_text="시험 유형 (객관식/주관식 등)")
     rating = models.PositiveIntegerField(default=3, help_text="난이도 별점 (1~5)")
-
+    
     title = models.CharField(max_length=200, help_text="후기 제목")
     content = models.TextField(help_text="총평 및 내용")
     views = models.PositiveIntegerField(default=0, help_text="조회수")
-
+    
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tests', help_text="작성자")
     created_at = models.DateTimeField(auto_now_add=True, help_text="작성일시")
 
@@ -86,14 +84,14 @@ class Comment(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
-
+    
     content = models.TextField()
     is_anonymous = models.BooleanField(default=False)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_comments', blank=True)
-
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def get_anonymous_number(self):
         users = Comment.objects.filter(
             test=self.test,
