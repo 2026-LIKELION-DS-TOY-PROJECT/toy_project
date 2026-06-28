@@ -6,21 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>시험 후기 게시물</title>
     <link rel="stylesheet" href="{% static 'css/reviewDetail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
 </head>
 <body>
-    <header class="header">
-        <img class="logo-img" src="{% static 'img/logo.svg' %}" alt="로고 이미지">
-        <div class="banner">
-            <span class="current-banner">게시판</span>
-            <span class="other-banner">강의실</span>
-            <span class="other-banner">시간표</span>
-            <span class="other-banner">학점계산기</span>
-        </div>
-        <div class="users-menu">
-            <img class="alert" src="{% static 'img/alert.svg' %}" alt="알림 이미지">
-            <img class="profile-picture" src="{% static 'img/profile_pic.svg' %}" alt="프로필 사진">
-        </div>
-    </header>
+{% include 'TestBack/header.html' %}
 
     <div class="container">
         <section class="section">
@@ -90,20 +79,20 @@
                         {% if user == test.user %}
                             <div class="like" onclick="openWarningModal('like')">
                                 <img src="{% static 'img/like.svg' %}" alt="좋아요">
-                                <span class="btn-text">좋아요 {{ test.likes.count }}</span>
+                                <span class="btn-text">좋아요</span>
                             </div>
                             <div class="scrap" onclick="openWarningModal('scrap')">
                                 <img src="{% static 'img/scrap.svg' %}" alt="스크랩">
-                                <span class="btn-text">스크랩 {{ test.scraps.count }}</span>
+                                <span class="btn-text">스크랩</span>
                             </div>
                         {% else %}
                             <a href="{% url 'TestBack:test_like' test.pk %}" class="like">
                                 <img src="{% static 'img/like.svg' %}" alt="좋아요">
-                                <span class="btn-text">좋아요 {{ test.likes.count }}</span>
+                                <span class="btn-text">좋아요</span>
                             </a>
                             <a href="{% url 'TestBack:test_scrap' test.pk %}" class="scrap">
                                 <img src="{% static 'img/scrap.svg' %}" alt="스크랩">
-                                <span class="btn-text">스크랩 {{ test.scraps.count }}</span>
+                                <span class="btn-text">스크랩</span>
                             </a>
                         {% endif %}
                     </div>
@@ -309,5 +298,6 @@
     </div>
     
     <script src="{% static 'js/reviewDetail.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
 </body>
 </html>
