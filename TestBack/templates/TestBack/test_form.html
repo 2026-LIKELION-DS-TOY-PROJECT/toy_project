@@ -7,6 +7,7 @@
     <title>멋사대학교 - 시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}</title>
     <link rel="stylesheet" href="{% static 'css/reviewWrite.css' %}">
     <script src="{% static 'js/reviewWrite.js' %}" defer></script>
+    <script src="{% static 'js/test_form.js' %}" defer></script>
 </head>
 <body>
 
@@ -51,27 +52,29 @@
     </header>
 
     <main class="container">
-        <div class="back-button-container">
-            <button type="button" class="btn-back" onclick="history.back();">
-                <img src="{% static 'img/weui_arrow-filled.svg' %}" width="10">
-                목록으로
-            </button>
-        </div>
+        <div class="button-txt-wrapper">
+            <div class="back-button-container">
+                <button type="button" class="btn-back" onclick="history.back();">
+                    <img src="{% static 'img/weui_arrow-filled.svg' %}" width="10" style="filter: invert(100%);">
+                    <p id="tothelist">목록으로</p>
+                </button>
+            </div>
 
-        <section class="form-header">
-            <h2>시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}
-                <span class="edit-icon">
-                    <img src="{% static 'img/icon-park-outline_write.svg' %}" width="23">
-                </span>
-            </h2>
-        </section>
+            <section class="form-header">
+                <h2>시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}
+                    {% comment %} <span class="edit-icon">
+                        <img src="{% static 'img/icon-park-outline_write.svg' %}" width="23">
+                    </span> {% endcomment %}
+                </h2>
+            </section>
+        </div>
 
         <form action="" method="post" class="review-form">
             {% csrf_token %}
 
             <!-- 수강학기 선택 (드롭다운) -->
             <div class="form-group-full">
-                <label for="semester">수강학기 *</label>
+                <label for="semester" ><p class="semester">수강학기</p></label>
                 <select id="semester" name="semester" required>
                     <option value="">수강학기를 선택하세요.</option>
                     {% for sem in semesters %}
@@ -83,46 +86,53 @@
                 </select>
             </div>
 
-            <!-- 학과 선택 (드롭다운) -->
-            <div class="form-group-full">
-                <label for="department">학과선택 *</label>
-                <select id="department" name="department" required>
-                    <option value="">학과를 선택하세요.</option>
-                    {% for dept in departments %}
-                    <option value="{{ dept.pk }}"
-                        {% if test.department.pk == dept.pk %}selected{% endif %}>
-                        {{ dept.name }}
-                    </option>
-                    {% endfor %}
-                </select>
+
+            <div class="form-group-full-wrapper">
+                <!-- 학과 선택 (드롭다운) -->
+                <div class="form-group-full2">
+                    <label for="department"><p class="labeltxt">학과선택</p></label>
+                    <select id="department" name="department" required>
+                        <option value="">학과를 선택하세요.</option>
+                        {% for dept in departments %}
+                        <option value="{{ dept.pk }}"
+                            {% if test.department.pk == dept.pk %}selected{% endif %}>
+                            {{ dept.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                
+
+                <!-- 과목명 (직접 입력) -->
+                <div class="form-group-full2">
+                    <label for="course_name"><p class="labeltxt">과목명</p></label>
+                    <input type="text" id="course_name" name="subject"
+                        value="{{ test.course.name|default:'' }}"
+                        placeholder="과목명을 직접 입력하세요." required>
+                </div>
+
+                <!-- 교수 선택 (드롭다운) - data-department 속성으로 JS 필터링 -->
+                <div class="form-group-full2">
+                    <label for="professor"><p class="labeltxt">교수님 선택</p></label>
+                    <select id="professor" name="professor" required>
+                        <option value="">교수님을 선택하세요.</option>
+                        {% for prof in professors %}
+                        <option value="{{ prof.pk }}"
+                                data-department="{{ prof.department.pk }}"
+                            {% if test.professor.pk == prof.pk %}selected{% endif %}>
+                            {{ prof.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
             </div>
 
-            <!-- 교수 선택 (드롭다운) - data-department 속성으로 JS 필터링 -->
-            <div class="form-group-full">
-                <label for="professor">교수님 선택 *</label>
-                <select id="professor" name="professor" required>
-                    <option value="">교수님을 선택하세요.</option>
-                    {% for prof in professors %}
-                    <option value="{{ prof.pk }}"
-                            data-department="{{ prof.department.pk }}"
-                        {% if test.professor.pk == prof.pk %}selected{% endif %}>
-                        {{ prof.name }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
 
-            <!-- 과목명 (직접 입력) -->
-            <div class="form-group-full">
-                <label for="course_name">과목명 *</label>
-                <input type="text" id="course_name" name="subject"
-                    value="{{ test.course.name|default:'' }}"
-                    placeholder="과목명을 직접 입력하세요." required>
-            </div>
-
-            <div class="form-grid">
+            {% comment %} <div class="form-grid">
                 <div class="form-group">
-                    <label for="exam_type">시험종류 *</label>
+                    <label for="exam_type">시험종류</label>
                     <input type="text" id="exam_type" name="exam_type"
                         value="{{ test.exam_type|default:'' }}" placeholder="ex) 중간고사" required>
                 </div>
@@ -132,32 +142,41 @@
                     <input type="text" id="exam_format" name="test_format"
                         value="{{ test.test_format|default:'' }}" placeholder="ex) 객관식/주관식" required>
                 </div>
-            </div>
+            </div> {% endcomment %}
 
             <!-- 난이도 별점 -->
-            <div class="form-group-full rating-container">
-                <label>난이도 *</label>
-                <input type="hidden" id="difficulty" name="rating" value="{{ test.rating|default:3 }}">
-                <div class="star-rating">
-                    <span class="star" data-value="1">{% if test.rating >= 1 %}★{% else %}☆{% endif %}</span>
-                    <span class="star" data-value="2">{% if test.rating >= 2 %}★{% else %}☆{% endif %}</span>
-                    <span class="star" data-value="3">{% if test.rating >= 3 or not test %}★{% else %}☆{% endif %}</span>
-                    <span class="star" data-value="4">{% if test.rating >= 4 %}★{% else %}☆{% endif %}</span>
-                    <span class="star" data-value="5">{% if test.rating == 5 %}★{% else %}☆{% endif %}</span>
+            <div class="form-group-full3 rating-container">
+                <label>시험난이도</label>
+                <div id="rating-wrap" class="explain">
+                    <p class="level">쉬움 &lt;-</p>
+                    <input type="hidden" id="difficulty" name="rating" value="{{ test.rating|default:3 }}">
+                    <div class="star-rating">
+                        <span class="star" data-value="1">{% if test.rating >= 1 %}★{% else %}☆{% endif %}</span>
+                        <span class="star" data-value="2">{% if test.rating >= 2 %}★{% else %}☆{% endif %}</span>
+                        <span class="star" data-value="3">{% if test.rating >= 3 or not test %}★{% else %}☆{% endif %}</span>
+                        <span class="star" data-value="4">{% if test.rating >= 4 %}★{% else %}☆{% endif %}</span>
+                        <span class="star" data-value="5">{% if test.rating == 5 %}★{% else %}☆{% endif %}</span>
+                    </div>
+                    <p class="level">-&gt; 어려움</p>
                 </div>
             </div>
 
             <!-- 제목 -->
             <div class="form-group-full">
-                <label for="title">제목 *</label>
-                <input type="text" id="title" name="title"
-                    value="{{ test.title|default:'' }}" maxlength="100"
-                    placeholder="제목을 입력하세요. (최대 100자)" required>
+                {% comment %} <label for="title">제목 *</label> {% endcomment %}
+                <div class="textarea-wrapper">
+                    <textarea type="text" id="title" name="title"
+                        maxlength="100" value="{{ test.title|default:'' }}"
+                        placeholder="최대 500자까지 입력 가능합니다." required></textarea>
+                    <span class="char-count">
+                            <span id="current-chars1"></span>/500
+                    </span>
+                </div>
             </div>
 
             <!-- 총평 -->
-            <div class="form-group-full">
-                <label for="content">총평 *</label>
+            <div class="form-group-full3">
+                <label for="content">총평</label>
                 <div class="textarea-wrapper">
                     <textarea id="content" name="content" maxlength="1000"
                         placeholder="최대 1000자까지 입력 가능합니다." required>{{ test.content|default:'' }}</textarea>
