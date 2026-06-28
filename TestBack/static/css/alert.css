@@ -1,0 +1,63 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f7f9f6; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+}
+
+
+.notice-container {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    padding: 60px 80px;
+    text-align: center;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15); 
+    max-width: 450px;
+    width: 100%;
+}
+
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #0f3b6c; 
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 30px auto;
+}
+
+
+.icon-text {
+    font-size: 42px;
+    font-weight: bold;
+    color: #0f3b6c;
+    line-height: 1;
+    font-family: serif; 
+}
+
+
+.main-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 15px 0;
+    letter-spacing: -0.5px;
+}
+
+
+.sub-title {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 500;
+}
