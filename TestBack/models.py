@@ -59,24 +59,25 @@ class ExamReview(models.Model):
 
 
 class Test(models.Model):
-    department = models.ForeignKey(Department, on_delete=models.PROTECT, null=True, blank=True, help_text="학과")
-    professor = models.ForeignKey(Professor, on_delete=models.PROTECT, null=True, blank=True, help_text="교수")
-    course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='tests', help_text="대상 과목")
-    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, null=True, blank=True, related_name='tests', help_text="시험 치른 학기")
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, null=True, blank=True)
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT, null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='tests')
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, null=True, blank=True, related_name='tests')
 
-    exam_type = models.CharField(max_length=20, help_text="시험 종류 (중간/기말 등)")
-    test_format = models.CharField(max_length=50, help_text="시험 유형 (객관식/주관식 등)")
-    rating = models.PositiveIntegerField(default=3, help_text="난이도 별점 (1~5)")
+    exam_type = models.CharField(max_length=20, blank=True)
+    test_format = models.CharField(max_length=50, blank=True)
+    rating = models.PositiveIntegerField(default=3)
 
-    title = models.CharField(max_length=200, help_text="후기 제목")
-    content = models.TextField(help_text="총평 및 내용")
-    views = models.PositiveIntegerField(default=0, help_text="조회수")
+    title = models.CharField(max_length=200)       # 제목
+    exam_info = models.TextField(blank=True)        # 난이도 줄글 (새로 추가)
+    content = models.TextField()                    # 총평
+    views = models.PositiveIntegerField(default=0)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tests', help_text="작성자")
-    created_at = models.DateTimeField(auto_now_add=True, help_text="작성일시")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tests')
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_tests', blank=True, help_text="좋아요 누른 유저들")
-    scraps = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='scrapped_tests', blank=True, help_text="스크랩한 유저들")
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_tests', blank=True)
+    scraps = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='scrapped_tests', blank=True)
 
     def __str__(self):
         return f"[{self.course.name}] {self.title}"
