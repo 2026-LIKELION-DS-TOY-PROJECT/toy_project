@@ -3,97 +3,13 @@ body {
     margin: 0;
     padding: 0;
     background-color: #FEFDF7;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-header {
-    display: flex;
-    border-bottom: 1px solid #d9d9d9;
-    font-weight: 500;
-    align-items: center;
-    padding: 0 20px;
-    box-sizing: border-box;
-    justify-content: center;
-    width: 100%;
-    height: 70px;
-    min-width: 1000px;
-    gap: 200px;
-}
-
-.logo-img {
-    width: 150px;
-    height: 60px;
-}
-
-.banner {
-    display: flex;
-    gap: 100px;
-    height: 100%;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.banner span {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.current-banner {
-    border-bottom: 3px solid #0A2E65; 
-    margin-bottom: -1px;
-    font-weight: 700;
-    color: #0A2E65;
-    font-weight: 700;
-}
-
-.users-menu {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.banner span {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.current-banner {
-    cursor: pointer;
-}
-
-.other-banner {
-    cursor: pointer;
-}
-
-
-.alert {
-    width: 30px;
-    height: 30px;
-}
-
-.profile-picture {
-    width: 25px;
-    height: 25px;
-    background-color: #d9d9d9;
-    border-radius: 50%;
 }
 
 
 
 
-.container {
-    display: flex;
-    width: 1000px;
-    margin: 0 auto;
-    gap: 70px;
-    padding: 20px 0;
-}
+
+
 
 .section {
     display: flex;
@@ -116,20 +32,24 @@ header {
     height: 25px;
     display: flex;
     border-radius: 10px;
-    background-color: #0a2e65;
+    border: 1px solid #0a2e65;
+    background-color: transparent;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
 .list-arrow {
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
+    margin-right: 3px;
 }
+
 .to-list {
-    color: #fff;
+    color: #000;
     font-size: 18px;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .title {
@@ -162,18 +82,17 @@ header {
     padding: 1px 4px;
     justify-content: center;
     border-radius: 10px;
-    border: 1px solid #0a2e65;
     font-size: 16px;
     cursor: pointer;
     box-sizing: border-box;
     align-items: center;
     padding: 0;
     font-size: 16px;
+    text-decoration:none; 
+    color:inherit; 
+    font-weight: 500;
 }
 
-.delete {
-    border: 1px solid #cf2e2e;
-}
 
 
 
@@ -194,14 +113,39 @@ header {
 
 .heading{
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
-.rating{
-    font-size: 16px;
+.explain {
+    margin: 10px 0 0 40px;
+}
+#rating-wrap{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.text{
+.stars-only {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
+.level {
+    font-size: 10px;
+}
+
+.stars {
+    display: flex;
+    gap: 10px;
+}
+
+.star {
+    color: #0A2E65;
+    font-size: 24px;
+}
+
+#text{
     font-size: 16px;
 }
 
@@ -215,7 +159,7 @@ header {
 
 }
 
-.overall-text{
+#overall-text{
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -225,29 +169,21 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    gap: 10px;
 }
 
 
-.like, .scrap, .share{
+.like, .scrap{
     display: flex;
     align-items: center;
-    border-radius: 10px;
-    border: 1px solid #000;
     justify-content: center;
     text-decoration: none;
     color: inherit;
+    gap: 5px;
 }
 
 .like, .scrap {
     width: 90px;
     height: 23px;
-    cursor: pointer;
-}
-
-.share {
-    width: 90px;
-    height:23px;
     cursor: pointer;
 }
 
@@ -274,6 +210,7 @@ header {
 .comment-like {
     text-decoration: none;
     color: inherit;
+    gap: 3px;
 }
 
 .single-comment, .single-reply {
@@ -294,6 +231,7 @@ header {
 .comment-text, .reply {
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* 남은 가로 공간 다 차지하게*/
 }
 
 .anonym{
@@ -442,7 +380,7 @@ header {
 .comment-header, .reply-bar {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     margin-bottom: 6px;
 }
 
@@ -455,14 +393,19 @@ header {
 .action-btn {
     background: none;
     border: none;
-    color: #999;
+    color: rgba(0, 0, 0, 0.41);
     font-size: 12px;
-    font-weight: 500;
     cursor: pointer;
     padding: 0;
+    text-decoration:none; 
 }
+
 .action-btn:hover {
     color: #333;
+}
+
+.delete-comment-form {
+    display: inline;
 }
 
 .single-reply, .new-reply-wrap {
@@ -508,6 +451,10 @@ header {
     gap: 10px;
 }
 
+.hidden-article {
+    display: none !important; /* 더보기 버튼 누르기 전까진 hide */
+}
+
 .aside-article {
     margin-bottom: 15px;
     margin-top: 15px;
@@ -542,6 +489,7 @@ header {
     background: #0A2E65;
     color:#fff;
     margin-top: 20px;
+    cursor: pointer;
 }
 
 
@@ -599,6 +547,7 @@ header {
 .modal-desc {
     font-weight: 300;
     font-size: 16px;
+
 }
 
 .modal-btns {
@@ -622,8 +571,9 @@ header {
 }
 
 .btn-delete {
-    background: #0A2E65;
+    background: #f00;
     color: #fff;
+    border: none;
 }
 
 
@@ -636,3 +586,97 @@ header {
     margin: 0;
     padding: 0;
 }
+
+.dev-modal-wrap {
+    display: none;
+}
+
+.modal-content .warning-q {
+    color: #000;
+    font-weight: 500;
+}
+
+.modal-content .modal-desc {
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+
+}
+
+
+.dev-modal-wrap {
+    display: none;
+}
+
+.modal-content .warning-q {
+    color: #000;
+    font-weight: 500;
+}
+
+.modal-content .modal-desc {
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+
+}
+
+
+.warning-modal-content {
+    padding: 40px 20px;
+    gap: 20px;
+}
+
+#warning-modal-wrap {
+    cursor: pointer;
+}
+
+#warning-modal-wrap .modal-content {
+    cursor: default;
+}
+
+
+
+
+
+
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 70px;
+    box-sizing: border-box;
+}
+
+.post-content {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+
+.new-comment {
+    width: 100% !important;
+}
+.new-comment-wrap {
+    padding-left: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 800px) {
+    .container {
+        gap: 0 !important;
+    }
+    
+    .aside {
+        display: none !important;
+    }
+
+}
+
