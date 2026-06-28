@@ -125,8 +125,9 @@
             <div class="form-group-full3">
                 <label for="exam_info">시험정보</label>
                 <div class="textarea-wrapper">
-                    <textarea id="exam_info" name="exam_info" maxlength="500"
-                        placeholder="최대 500자까지 입력 가능합니다.">{{ test.exam_info|default:'' }}</textarea>
+                    <textarea id="title" name="title"
+                        maxlength="100"
+                        placeholder="최대 500자까지 입력 가능합니다." required>{{ test.title|default:'' }}</textarea>
                     <span class="char-count">
                         <span id="current-chars1">{{ test.exam_info|length|default:0 }}</span>/500
                     </span>
