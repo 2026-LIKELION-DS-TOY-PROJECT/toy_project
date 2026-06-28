@@ -116,11 +116,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = "/static/"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "TestBack" / "static",
-]
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Django 6.0 권장 방식
