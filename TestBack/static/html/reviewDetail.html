@@ -7,21 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>시험 후기 게시물</title>
     <link rel="stylesheet" href="{% static 'css/reviewDetail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
 </head>
 <body>
-    <header class="header">
-        <img class="logo-img" src="../img/logo.svg" alt="로고 이미지">
-        <div class="banner">
-            <span class="current-banner">게시판</span>
-            <span class="other-banner">강의실</span>
-            <span class="other-banner">시간표</span>
-            <span class="other-banner">학점계산기</span>
-        </div>
-        <div class="users-menu">
-            <img class="alert" src="../img/alert.svg" alt="알림 이미지">
-            <img class="profile-picture" src="../img/profile_pic.svg" alt="프로필 사진">
-        </div>
-    </header>
+
+{% include 'TestBack/header.html' %}
 
     <div class="container">
         <section class="section">

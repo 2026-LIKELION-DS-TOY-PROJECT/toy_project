@@ -61,3 +61,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+// 다인 추가 파트 시작 - 삭제 모달 관련 js
+document.addEventListener('DOMContentLoaded', () => {
+    const successModal = document.getElementById('delete-success-modal');
+
+    // 1. 브라우저 저장소에 'postDeleted' 기록이 있는지 확인하고
+    if (sessionStorage.getItem('postDeleted') === 'true') {
+        if (successModal) {
+            successModal.style.display = 'flex';
+        }
+        // 띄운 후 기록 삭제 (새로고침 시 또 뜨는 현상 방지용으로)
+        sessionStorage.removeItem('postDeleted');
+    }
+
+    // 2. 바깥 여백(블러 영역) 클릭 시 모달 닫기
+    if (successModal) {
+        successModal.addEventListener('click', function(e) {
+            // 클릭한 대상이 안쪽 하얀 박스가 아니라 바깥 블러 배경일 때만 닫음
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+            }
+        });
+    }
+});
+// 다인 추가 파트 종료
