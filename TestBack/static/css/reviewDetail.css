@@ -664,3 +664,22 @@ header {
     margin: 0;
     padding: 0;
 }
+
+.dev-modal-wrap {
+    display: none;
+}
+
+.dev-modal-wrap .warning-q {
+    color: #000;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-weight: 500;
+}
+
+.dev-modal-wrap .modal-desc {
+    color: #000;
+    text-align: center;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: 10px;
+}

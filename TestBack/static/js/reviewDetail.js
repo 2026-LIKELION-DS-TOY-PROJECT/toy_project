@@ -104,10 +104,22 @@ function closeDeleteModal() {
     const modal = document.querySelector('.delete-modal-wrap');
     if (modal) modal.style.display = 'none';
 }
+
+
+
+
+// 게시글 삭제 시 reviewList로 돌아가야 하는데, 백엔드 도움 없이 프론트적으로 구현
 function confirmDelete(testPk) {
     const form = document.getElementById('delete-form-post-' + testPk);
-    if (form) form.submit();
+    if (form) {
+        // 백엔드로 넘어가기 직전에 브라우저 임시 저장소에 기록 남기기!
+        sessionStorage.setItem('postDeleted', 'true');
+        form.submit();
+    }
 }
+
+
+
 
 // 삭제할 댓글's 폼 ID 임시 저장할 변수
 let targetCommentFormId = null;
@@ -131,3 +143,29 @@ function confirmCommentDelete() {
         if (form) form.submit();
     }
 }
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const alertBtn = document.querySelector('.alert'); // 종 모양 알림 class
+    const profileBtn = document.querySelector('.profile-picture'); // 프로필 사진 class
+    const devModal = document.getElementById('dev-modal-wrap');
+
+    // 1. 알림 또는 프로필 클릭 시 모달 열리고
+    function openDevModal() {
+        if (devModal) devModal.style.display = 'flex';
+    }
+
+    if (alertBtn) alertBtn.addEventListener('click', openDevModal);
+    if (profileBtn) profileBtn.addEventListener('click', openDevModal);
+
+    // 2. 바깥 여백(블러) 클릭 시 모달 닫힘
+    if (devModal) {
+        devModal.addEventListener('click', function(e) {
+            if (e.target === devModal) {
+                devModal.style.display = 'none';
+            }
+        });
+    }
+});
