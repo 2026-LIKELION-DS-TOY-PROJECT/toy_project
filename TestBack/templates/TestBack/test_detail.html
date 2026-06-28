@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>시험 후기 게시물</title>
-    <link rel="stylesheet" href="{% static 'css/reviewDetail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reviewDetail.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
 </head>
 <body>
 {% include 'TestBack/header.html' %}
 
     <div class="container">
-        <section class="section">
+        <section class="section main-content">
             <article class="post">
                 <div class="post-header">
                     <div class="list-btn">
@@ -61,7 +61,7 @@
                                 <span class="level">-&gt; 어려움</span>
                             </div>
 
-                            <div>{{test.title}}</div>
+                            <div>{{test.exam_info}}</div>
                         </div>
                     </div>
 
@@ -74,7 +74,7 @@
                     </div>
                     <div class="overall">
                         <div class="heading">총평</div>
-                        <div id="overall-text" class="explain">
+                        <div id="overall-text" class="explain 총평-텍스트">
                             <div>{{ test.content }}</div>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <p class="comment">{{ comment.content }}</p>
+                        <p class="comment comment-content">{{ comment.content }}</p>
                         <div class="comment-info">
                             <span class="comment-time">{{ comment.created_at|date:"Y.m.d H:i" }}</span>
                             <a href="{% url 'TestBack:comment_like' comment.id %}" class="comment-like" style="text-decoration:none; color:inherit;">
@@ -151,10 +151,10 @@
                     </div>
                 </div>
 
-                <form method="POST" action="{% url 'TestBack:comment_create' test.pk %}" class="new-reply-wrap" id="reply-form-{{ comment.id }}">
+                <form method="POST" action="{% url 'TestBack:comment_create' test.pk %}" class="new-reply-wrap comment-form" id="reply-form-{{ comment.id }}">
                     {% csrf_token %}
                     <input type="hidden" name="parent_id" value="{{ comment.id }}">
-                    <div class="new-comment" style="flex-grow: 1;">
+                    <div class="new-comment comment-input-wrap" style="flex-grow: 1;">
                         <input type="text" class="input" placeholder="대댓글을 입력하세요." name="content" style="width:100%;">
                         <div class="whether-anonym">
                             <input type="checkbox" class="anonym-check" name="is_anonymous">
@@ -191,7 +191,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <p class="comment">{{ reply.content }}</p>
+                        <p class="comment comment-content">{{ reply.content }}</p>
                         <div class="comment-info">
                             <span class="comment-time">{{ reply.created_at|date:"Y.m.d H:i" }}</span>
 
@@ -212,13 +212,13 @@
                 {% endfor %}
 
                 {% if edit_comment %}
-                <form method="POST" action="{% url 'TestBack:comment_update' edit_comment.id %}" class="new-comment-wrap">
+                <form method="POST" action="{% url 'TestBack:comment_update' edit_comment.id %}" class="new-comment-wrap comment-form">
                 {% else %}
-                <form method="POST" action="{% url 'TestBack:comment_create' test.pk %}" class="new-comment-wrap">
+                <form method="POST" action="{% url 'TestBack:comment_create' test.pk %}" class="new-comment-wrap comment-form">
                 {% endif %}
                     {% csrf_token %}
                     <input type="hidden" name="parent_id" value="">
-                    <div class="new-comment">
+                    <div class="new-comment comment-input-wrap">
                         <input type="text" class="input" placeholder="댓글을 입력하세요." name="content"
                             value="{% if edit_comment %}{{ edit_comment.content }}{% endif %}">
                         <div class="whether-anonym">
@@ -267,7 +267,7 @@
         <div class="modal-content">
             <img src="{% static 'img/warning.svg' %}" alt="경고" class="modal-warning-icon">
             <div class="warning-q">게시글을 삭제하시겠습니까?</div>
-            <div class="modal-desc">삭제된 게시글은 복구할 수 없습니다.</div>
+            <div class="modal-desc">삭제된 게시글은 복구할 수 복구할 수 없습니다.</div>
             <div class="modal-btns">
                 <button type="button" class="btn-cancel" onclick="closeDeleteModal()">취소</button>
                 <button type="button" class="btn-delete" onclick="confirmDelete('{{ test.pk }}')">삭제</button>
