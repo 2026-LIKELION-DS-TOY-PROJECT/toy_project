@@ -19,6 +19,7 @@ def test_create(request):
         test_format = request.POST.get('test_format')
         rating = request.POST.get('rating', 3)
         title = request.POST.get('title')
+        exam_info = request.POST.get('exam_info', '')
         content = request.POST.get('content')
 
         department = get_object_or_404(Department, pk=department_id)
@@ -41,6 +42,7 @@ def test_create(request):
                 test_format=test_format,
                 rating=int(rating),
                 title=title,
+                exam_info=exam_info,
                 content=content,
                 user=request.user
             )
@@ -118,6 +120,7 @@ def test_update(request, pk):
         test.test_format = request.POST.get('test_format')
         test.rating = int(request.POST.get('rating', 3))
         test.title = request.POST.get('title')
+        test.exam_info = request.POST.get('exam_info', '')
         test.content = request.POST.get('content')
         test.save()
         return redirect('TestBack:test_detail', pk=pk)
