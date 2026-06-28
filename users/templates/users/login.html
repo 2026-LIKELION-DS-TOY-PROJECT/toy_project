@@ -116,8 +116,66 @@
                 text-decoration: none;
                 font-size: 14px;
             }
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background-color: rgba(0,0,0,0.3);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+            }
+            .modal-box {
+                background-color: #fff;
+                border: 2px solid #0A2E65;
+                border-radius: 4px;
+                padding: 48px 60px;
+                text-align: center;
+                min-width: 300px;
+            }
+            .modal-icon {
+                width: 52px;
+                height: 52px;
+                border: 3px solid #0A2E65;
+                border-radius: 50%;
+                color: #0A2E65;
+                font-size: 28px;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 auto 20px;
+            }
+            .modal-title {
+                font-size: 18px;
+                font-weight: bold;
+                color: #111;
+                margin-bottom: 10px;
+            }
+            .modal-sub {
+                font-size: 14px;
+                color: #8E8E8E;
+                line-height: 1.6;
+            }
         </style>
     </head>
+    <div id="devModal" class="modal-overlay" onclick="hideDevModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-icon">!</div>
+        <p class="modal-title">현재 개발 중인 기능입니다.</p>
+        <p class="modal-sub">더 나은 서비스를 위해 준비 중이니<br>조금만 기다려주세요.</p>
+    </div>
+    </div>
+
+    <script>
+        function showDevModal(e) {
+            e.preventDefault();
+            document.getElementById('devModal').style.display = 'flex';
+        }
+        function hideDevModal() {
+            document.getElementById('devModal').style.display = 'none';
+        }
+    </script>
     <body>
         <div class="login-container">
             {% comment %}
@@ -172,8 +230,8 @@
                 <button type="submit" class="submit-btn">로그인</button>
 
                 <div class="form-footer">
-                    <a href="#">아이디 찾기</a>
-                    <a href="#">비밀번호 찾기</a>
+                    <a href="#" onclick="showDevModal(event)">아이디 찾기</a>
+                    <a href="#" onclick="showDevModal(event)">비밀번호 찾기</a>
                     <a href="{% url 'users:signup' %}" class="signup-link"
                         >회원가입</a
                     >
