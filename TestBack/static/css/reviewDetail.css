@@ -684,3 +684,35 @@ header {
 
 }
 
+
+.dev-modal-wrap {
+    display: none;
+}
+
+.modal-content .warning-q {
+    color: #000;
+    font-weight: 500;
+}
+
+.modal-content .modal-desc {
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+
+}
+
+
+.warning-modal-content {
+    padding: 40px 20px;
+    gap: 20px;
+}
+
+#warning-modal-wrap {
+    cursor: pointer;
+}
+
+#warning-modal-wrap .modal-content {
+    cursor: default;
+}
