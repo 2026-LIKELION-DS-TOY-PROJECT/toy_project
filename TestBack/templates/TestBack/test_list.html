@@ -101,6 +101,22 @@
     <link rel="stylesheet" href="{% static 'css/reviewEmpty.css' %}">
     <link rel="stylesheet" href="{% static 'css/reviewList.css' %}">
 </head>
+    <div id="devModal" class="modal-overlay" onclick="hideDevModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-icon">!</div>
+            <p class="modal-title">현재 개발 중인 기능입니다.</p>
+            <p class="modal-sub">더 나은 서비스를 위해 준비 중이니<br>조금만 기다려주세요.</p>
+        </div>
+    </div>
+    <script>
+        function showDevModal(e) {
+            e.preventDefault();
+            document.getElementById('devModal').style.display = 'flex';
+        }
+        function hideDevModal() {
+            document.getElementById('devModal').style.display = 'none';
+        }
+    </script>
 <body>
 
     <header class="navbar">
@@ -136,10 +152,10 @@
         <aside class="sidebar">
             <h3 class="sidebar-title">게시판 <span class="arrow-down">▼</span></h3>
             <ul class="sidebar-menu">
-                <li><a href="#">교수님 후기</a></li>
+                <li><a href="#" onclick="showDevModal(event)">교수님 후기</a></li>
                 <li class="active"><a href="#">시험 후기</a></li>
-                <li><a href="#">강의 후기</a></li>
-                <li><a href="#">질의응답</a></li>
+                <li><a href="#" onclick="showDevModal(event)">강의 후기</a></li>
+                <li><a href="#" onclick="showDevModal(event)">질의응답</a></li>
             </ul>
         </aside>
 
@@ -159,10 +175,10 @@
                     </div>
                     <input type="hidden" name="sort" value="{{ sort }}">
                 </form>
-                <a href="{% url 'TestBack:test_create' %}" class="btn-write">후기 작성하기</a>
+                
             </div>
 
-            <div class="filter-tabs">
+            {% comment %}<div class="filter-tabs">
                 <a class="tab-btn1">전체</a>
                 <a href="?sort=latest&search={{ search_keyword }}" class="tab-btn {% if sort == 'latest' or not sort %}active{% endif %}"
                 style="text-decoration: none; border-bottom: none;">최신순 <span>▼</span></a>
@@ -170,9 +186,24 @@
                 style="text-decoration: none; border-bottom: none;">추천순</a>
                 <a href="?sort=views&search={{ search_keyword }}" class="tab-btn {% if sort == 'views' %}active{% endif %}"
                 style="text-decoration: none; border-bottom: none;">조회순</a>
-            </div>
+            </div> {% endcomment %}
+
+            
 
             {% if page_obj %}
+            <div class="filter-tabs">
+                <select class="sort-select" onchange="location.href=this.value">
+                    <option value="?sort=latest&search={{ search_keyword }}" {% if sort == 'latest' or not sort %}selected{% endif %}>최신순</option>
+                    <option value="?sort=likes&search={{ search_keyword }}" {% if sort == 'likes' %}selected{% endif %}>추천순</option>
+                    <option value="?sort=views&search={{ search_keyword }}" {% if sort == 'views' %}selected{% endif %}>조회순</option>
+                </select>
+                <a href="{% url 'TestBack:test_create' %}" class="btn-write">후기 작성하기
+                    <img src="{% static 'img/Vector.svg' %}" width="16" class="vectorimg">
+                </a>
+
+                
+            </div>
+
                 <table class="board-table">
                     <thead>
                         <tr>
@@ -224,7 +255,7 @@
                 </div>
             {% endif %}
             
-            {% if page_obj.paginator.num_pages >= 1 %}
+            {% if page_obj.paginator.num_pages > 1 %}
             <div class="pagination">
     
                 {% if page_obj.has_previous %}
