@@ -32,6 +32,12 @@ def test_create(request):
             name=subject_name,
         )
 
+        # 같은 유저가 같은 과목 후기를 이미 작성했는지 확인
+        if Test.objects.filter(user=request.user, course=course).exists():
+            return HttpResponse(
+                "<script>alert('⚠️ 이미 해당 과목의 후기를 작성하셨습니다.');history.back();</script>"
+            )
+
         try:
             test = Test.objects.create(
                 department=department,
@@ -49,13 +55,15 @@ def test_create(request):
             return redirect('TestBack:test_detail', pk=test.pk)
 
         except IntegrityError:
-            response_html = "<script>alert('⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.');history.back();</script>"
-            return HttpResponse(response_html)
+            return HttpResponse(
+                "<script>alert('⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.');history.back();</script>"
+            )
 
     # GET
     departments = Department.objects.all()
     professors = Professor.objects.select_related('department').all()
     semesters = Semester.objects.all()
+
     return render(request, 'TestBack/test_form.html', {
         'departments': departments,
         'professors': professors,
