@@ -188,3 +188,5 @@ service_account.json
 
 # Django static files
 staticfiles/
+__pycache__/
+*.pyc
