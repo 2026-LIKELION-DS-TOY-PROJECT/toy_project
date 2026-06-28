@@ -47,25 +47,29 @@
                     <div class="difficulty">
                         <div class="heading">시험 난이도</div>
                         <div id="rating-wrap" class="explain">
-                            <span class="level">쉬움 &lt;-</span>
+                            <div class="stars-only">
+                                <span class="level">쉬움 &lt;-</span>
                             
-                            <div class="stars">
-                                <span class="star">{% if test.rating >= 1 %}★{% else %}☆{% endif %}</span>
-                                <span class="star">{% if test.rating >= 2 %}★{% else %}☆{% endif %}</span>
-                                <span class="star">{% if test.rating >= 3 %}★{% else %}☆{% endif %}</span>
-                                <span class="star">{% if test.rating >= 4 %}★{% else %}☆{% endif %}</span>
-                                <span class="star">{% if test.rating >= 5 %}★{% else %}☆{% endif %}</span>
+                                <div class="stars">
+                                    <span class="star">{% if test.rating >= 1 %}★{% else %}☆{% endif %}</span>
+                                    <span class="star">{% if test.rating >= 2 %}★{% else %}☆{% endif %}</span>
+                                    <span class="star">{% if test.rating >= 3 %}★{% else %}☆{% endif %}</span>
+                                    <span class="star">{% if test.rating >= 4 %}★{% else %}☆{% endif %}</span>
+                                    <span class="star">{% if test.rating >= 5 %}★{% else %}☆{% endif %}</span>
+                                </div>
+                                
+                                <span class="level">-&gt; 어려움</span>
                             </div>
-                            
-                            <span class="level">-&gt; 어려움</span>
 
+                            <div>{{test.title}}</div>
                         </div>
                     </div>
 
                     <div class="type">
                         <div class="heading">시험 유형</div>
                         <div id="text" class="explain">
-                            <span>{{ test.test_format }} ({{ test.exam_type }})</span>
+                            <span>{{ test.exam_type }} - </span>
+                            <span>{{ test.test_format }}</span>
                         </div>
                     </div>
                     <div class="overall">

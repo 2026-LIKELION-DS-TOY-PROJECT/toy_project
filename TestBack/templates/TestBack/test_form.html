@@ -165,9 +165,9 @@
             <div class="form-group-full">
                 {% comment %} <label for="title">제목 *</label> {% endcomment %}
                 <div class="textarea-wrapper">
-                    <textarea type="text" id="title" name="title"
-                        maxlength="100" value="{{ test.title|default:'' }}"
-                        placeholder="최대 500자까지 입력 가능합니다." required></textarea>
+                    <textarea id="title" name="title"
+                        maxlength="100"
+                        placeholder="최대 500자까지 입력 가능합니다." required>{{ test.title|default:'' }}</textarea>
                     <span class="char-count">
                             <span id="current-chars1"></span>/500
                     </span>

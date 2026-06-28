@@ -128,14 +128,19 @@ body {
 
 .explain {
     margin: 10px 0 0 40px;
-
 }
 #rating-wrap{
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     gap: 10px;
 }
 
+.stars-only {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
 .level {
     font-size: 10px;
 }
