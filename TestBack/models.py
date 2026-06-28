@@ -62,22 +62,48 @@ class Test(models.Model):
     department = models.ForeignKey(Department, on_delete=models.PROTECT, null=True, blank=True)
     professor = models.ForeignKey(Professor, on_delete=models.PROTECT, null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='tests')
-    semester = models.ForeignKey(Semester, on_delete=models.PROTECT, null=True, blank=True, related_name='tests')
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='tests'
+    )
 
     exam_type = models.CharField(max_length=20, blank=True)
     test_format = models.CharField(max_length=50, blank=True)
     rating = models.PositiveIntegerField(default=3)
 
-    title = models.CharField(max_length=200)       # 제목
-    exam_info = models.TextField(blank=True)        # 난이도 줄글 (새로 추가)
-    content = models.TextField()                    # 총평
+    title = models.CharField(max_length=200)
+    exam_info = models.TextField(blank=True)
+    content = models.TextField()
     views = models.PositiveIntegerField(default=0)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tests')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='tests'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
-    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_tests', blank=True)
-    scraps = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='scrapped_tests', blank=True)
+    likes = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_tests',
+        blank=True
+    )
+    scraps = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='scrapped_tests',
+        blank=True
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'course'],
+                name='unique_user_course_review'
+            )
+        ]
 
     def __str__(self):
         return f"[{self.course.name}] {self.title}"
