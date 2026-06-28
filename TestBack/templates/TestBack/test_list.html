@@ -57,7 +57,7 @@
                         >
                     </td>
                     <td>{{ test.user.username }}</td>
-                    <td>{{ test.course.subject }}</td>
+                    <td>{{ test.course.name }}</td>
                     <td>{{ test.created_at|date:"Y.m.d" }}</td>
                     <td>{{ test.likes.count }}</td>
                     <td>{{ test.views }}</td>
@@ -267,6 +267,17 @@
             {% endif %}
         </main>
     </div>
+
+    {# 다인 추가 파트 시작 - 삭제 성공 시 모달 관련 html #}
+    <div class="delete-modal-wrap" id="delete-success-modal">
+        <div class="modal-content warning-modal-content">
+            <img src="{% static 'img/trashbin.svg' %}" alt="삭제 완료" class="modal-warning-icon">
+            <div class="warning-q" id="warning-q-deleted">게시글이 삭제되었습니다.</div>
+        </div>
+    </div>
+    {# 다인 추가 파트 종료 #}
+
+    <script src="{% static 'js/reviewList.js' %}"></script>
 
 </body>
 </html>

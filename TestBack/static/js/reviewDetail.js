@@ -45,21 +45,41 @@ function closeDeleteModal() {
     currentDeleteId = null;
 }
 
-function confirmDelete() {
-    if (!currentDeleteType || !currentDeleteId) return;
 
-    // HTML에서 부여한 form의 id 동적으로 찾음
-    const formId = `delete-form-${currentDeleteType}-${currentDeleteId}`;
-    const form = document.getElementById(formId);
 
-    // 그 form 찾아 장고로 POST 요청 전송 (실제로 삭제 처리 여기ㅣ서)
-    if (form) {
-        form.submit();
+// 페이지를 넘나들어야 하므로 백엔드 도움이 필요하지만 사정상 프론트에서 구현
+function confirmDelete(testPk) {
+    // 1. 다인 방식: HTML에서 괄호 안에 testPk를 직접 넘겨준 경우 (게시글 삭제)
+    if (testPk) {
+        const form = document.getElementById('delete-form-post-' + testPk);
+        if (form) {
+            sessionStorage.setItem('postDeleted', 'true'); // 포스트잇 붙이기
+            form.submit();
+        }
+        return; // 여기서 함수 끝내기
     }
 
-    // 전송 후 모달 close
-    closeDeleteModal();
+    // 2. 팀원 방식: testPk가 안 넘어오고 팀원의 변수가 설정된 경우
+    if (typeof currentDeleteType !== 'undefined' && currentDeleteType && currentDeleteId) {
+        const formId = `delete-form-${currentDeleteType}-${currentDeleteId}`;
+        const form = document.getElementById(formId);
+
+        if (form) {
+            if (currentDeleteType === 'post') {
+                sessionStorage.setItem('postDeleted', 'true');
+            }
+            form.submit();
+        }
+        // 모달 닫기 함수가 있다면 실행
+        if (typeof closeDeleteModal === 'function') closeDeleteModal();
+    }
 }
+
+
+
+
+
+
 
 // 대댓글 작성 폼 열고 닫기
 function toggleReplyForm(commentId) {
@@ -104,10 +124,10 @@ function closeDeleteModal() {
     const modal = document.querySelector('.delete-modal-wrap');
     if (modal) modal.style.display = 'none';
 }
-function confirmDelete(testPk) {
-    const form = document.getElementById('delete-form-post-' + testPk);
-    if (form) form.submit();
-}
+
+
+
+
 
 // 삭제할 댓글's 폼 ID 임시 저장할 변수
 let targetCommentFormId = null;
@@ -160,6 +180,32 @@ document.addEventListener('DOMContentLoaded', () => {
             // 클릭한 대상(e.target)이 안쪽의 하얀 박스 (x), 바깥쪽 블러일 때만 닫기
             if (e.target === warningModal) {
                 warningModal.style.display = 'none';
+            }
+        });
+    }
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const alertBtn = document.querySelector('.alert'); // 종 모양 알림 class
+    const profileBtn = document.querySelector('.profile-picture'); // 프로필 사진 class
+    const devModal = document.getElementById('dev-modal-wrap');
+
+    // 1. 알림 또는 프로필 클릭 시 모달 열리고
+    function openDevModal() {
+        if (devModal) devModal.style.display = 'flex';
+    }
+
+    if (alertBtn) alertBtn.addEventListener('click', openDevModal);
+    if (profileBtn) profileBtn.addEventListener('click', openDevModal);
+
+    // 2. 바깥 여백(블러) 클릭 시 모달 닫힘
+    if (devModal) {
+        devModal.addEventListener('click', function(e) {
+            if (e.target === devModal) {
+                devModal.style.display = 'none';
             }
         });
     }

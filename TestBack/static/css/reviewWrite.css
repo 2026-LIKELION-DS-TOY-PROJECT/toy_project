@@ -18,8 +18,78 @@ body {
     color: #333;
 }
 
-/* 네비게이션 바 */
-.navbar {
+header {
+    display: flex;
+    border-bottom: 1px solid #d9d9d9;
+    font-weight: 500;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    min-width: 1000px;
+    gap: 200px;
+}
+.logo-img {
+    width: 150px;
+    height: 60px;
+}
+.banner {
+    display: flex;
+    gap: 100px;
+    height: 100%;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.banner span {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.current-banner {
+    border-bottom: 3px solid #0A2E65; 
+    margin-bottom: -1px;
+    font-weight: 700;
+    color: #0A2E65;
+    font-weight: 700;
+}
+.users-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.banner span {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.current-banner {
+    cursor: pointer;
+}
+
+.other-banner {
+    cursor: pointer;
+}
+.alert {
+    width: 30px;
+    height: 30px;
+}
+
+.profile-picture {
+    width: 25px;
+    height: 25px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+}
+
+
+/* .navbar {
     border-bottom: 1px solid #EAEAEA;
     padding: 15px 0;
 }
@@ -31,7 +101,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-}
+} */
 
 /* .logo {
     display: flex;
@@ -45,7 +115,7 @@ body {
     font-size: 24px;
 } */
 
-.nav-links a {
+/* .nav-links a {
     text-decoration: none;
     color: #555;
     margin: 0 80px;
@@ -59,7 +129,7 @@ body {
     border-bottom: 3px solid var(--navy-primary);
     font-weight: bold;
     padding-bottom: 28px;
-}
+} */
 
 /* .nav-icons span {
     font-size: 20px;
@@ -67,14 +137,16 @@ body {
     cursor: pointer;
 } */
 
-.nav-icons{
+/* .nav-icons{
     display: flex;
     justify-content: center;
     gap: 10px;
     cursor: pointer;
-}
+} */
 
-/* 메인 컨테이너 */
+
+
+
 .container {
     max-width: 900px;
     margin: 40px auto;

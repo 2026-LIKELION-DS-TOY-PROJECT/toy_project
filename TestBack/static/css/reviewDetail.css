@@ -626,6 +626,7 @@ header {
 .modal-desc {
     font-weight: 300;
     font-size: 16px;
+
 }
 
 .modal-btns {
@@ -664,6 +665,44 @@ header {
     margin: 0;
     padding: 0;
 }
+
+.dev-modal-wrap {
+    display: none;
+}
+
+.modal-content .warning-q {
+    color: #000;
+    font-weight: 500;
+}
+
+.modal-content .modal-desc {
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+
+}
+
+
+.dev-modal-wrap {
+    display: none;
+}
+
+.modal-content .warning-q {
+    color: #000;
+    font-weight: 500;
+}
+
+.modal-content .modal-desc {
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+
+}
+
 
 .warning-modal-content {
     padding: 40px 20px;
