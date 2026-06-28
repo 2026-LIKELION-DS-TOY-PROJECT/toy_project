@@ -349,11 +349,13 @@ body {
     text-align: center;
     gap: 10px;
     padding: 0;
+    position: relative; 
+    z-index: 1001;
 }
 
 .delete-modal-wrap {
     position: fixed;
-    display: flex;
+    display: none;
     top: 70px;
     left: 0;
     width: 100vw;

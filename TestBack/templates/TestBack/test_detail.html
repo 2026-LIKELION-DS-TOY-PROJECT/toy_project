@@ -294,15 +294,20 @@
         </div>
     </div>
 
-    <div class="delete-modal-wrap" id="dev-modal-wrap">
+    <div class="delete-modal-wrap" id="warning-modal-wrap" style="display: none;">
         <div class="modal-content warning-modal-content">
-            <img src="{% static 'img/warning_navy.svg' %}" alt="안내" class="modal-warning-icon">
-            <div class="warning-q">현재 개발 중인 기능입니다.</div>
-            <div class="modal-desc">
-                더 나은 서비스를 위해 준비 중이니<br>조금만 기다려주세요.
-            </div>
+            <img src="{% static 'img/warning_navy.svg' %}" alt="경고" class="modal-warning-icon">
+            <div class="warning-q" id="warning-modal-text">경고 메시지</div>
         </div>
     </div>
+
+    <div class="delete-modal-wrap" id="delete-success-modal" style="display: none;">
+        <div class="modal-content warning-modal-content">
+            <img src="{% static 'img/trashbin.svg' %}" alt="삭제 완료" class="modal-warning-icon">
+            <div class="warning-q" id="warning-q-deleted">게시글이 삭제되었습니다.</div>
+        </div>
+    </div>
+    
     <script src="{% static 'js/reviewDetail.js' %}"></script>
 </body>
 </html>
