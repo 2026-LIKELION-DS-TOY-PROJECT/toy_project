@@ -46,6 +46,23 @@
         <title>로그인</title>
         <link rel="stylesheet" href="{% static 'css/reviewLogin.css' %}" />
     </head>
+    <div id="devModal" class="modal-overlay" onclick="hideDevModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-icon">!</div>
+        <p class="modal-title">현재 개발 중인 기능입니다.</p>
+        <p class="modal-sub">더 나은 서비스를 위해 준비 중이니<br>조금만 기다려주세요.</p>
+    </div>
+    </div>
+
+    <script>
+        function showDevModal(e) {
+            e.preventDefault();
+            document.getElementById('devModal').style.display = 'flex';
+        }
+        function hideDevModal() {
+            document.getElementById('devModal').style.display = 'none';
+        }
+    </script>
     <body>
         <div class="login-wrapper">
         <div class="login-container">

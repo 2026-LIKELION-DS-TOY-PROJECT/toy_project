@@ -155,3 +155,44 @@ body{
 .signup-link {
     font-weight: 500;
 }
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.modal-box {
+    background-color: #fff;
+    border: 2px solid #0A2E65;
+    border-radius: 4px;
+    padding: 48px 60px;
+    text-align: center;
+    min-width: 300px;
+}
+.modal-icon {
+    width: 52px;
+    height: 52px;
+    border: 3px solid #0A2E65;
+    border-radius: 50%;
+    color: #0A2E65;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+}
+.modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #111;
+    margin-bottom: 10px;
+}
+.modal-sub {
+    font-size: 14px;
+    color: #8E8E8E;
+    line-height: 1.6;
+}
