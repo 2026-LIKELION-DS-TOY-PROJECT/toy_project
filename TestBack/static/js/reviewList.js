@@ -67,18 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const successModal = document.getElementById('delete-success-modal');
 
-    // 1. 브라우저 저장소에 'postDeleted' 존재 시 모달 띄우고
+    // 1. 브라우저 저장소에 'postDeleted' 기록이 있는지 확인하고
     if (sessionStorage.getItem('postDeleted') === 'true') {
-        // 모달 띄우기
-        if (successModal) successModal.style.display = 'flex';
-        
-        // 새로고침 시 모달이 다시 뜨지 않도록 브라우저 저장소에서 제거
+        if (successModal) {
+            successModal.style.display = 'flex';
+        }
+        // 띄운 후 기록 삭제 (새로고침 시 또 뜨는 현상 방지용으로)
         sessionStorage.removeItem('postDeleted');
     }
 
-    // 2. 바깥 여백(블러) 클릭 시 모달 닫히게 
+    // 2. 바깥 여백(블러 영역) 클릭 시 모달 닫기
     if (successModal) {
         successModal.addEventListener('click', function(e) {
+            // 클릭한 대상이 안쪽 하얀 박스가 아니라 바깥 블러 배경일 때만 닫음
             if (e.target === successModal) {
                 successModal.style.display = 'none';
             }

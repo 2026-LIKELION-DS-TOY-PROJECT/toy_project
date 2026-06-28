@@ -335,14 +335,42 @@ body {
 }
 
 /* 다인 추가 파트 시작 - 삭제 성공 시 모달 관련 css*/
-#delete-success-modal {
-    display: none;
+#delete-success-modal .modal-content {
+    width: 393px;
+    height: 253px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    border: 3px solid #000;
+    background: #FEFDF7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+    padding: 0;
 }
 
-.modal-content warning-modal-content {
-    padding: 40px 20px; 
-    gap: 20px;
+.delete-modal-wrap {
+    position: fixed;
+    display: flex;
+    top: 70px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 70px);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
 }
 
+.warning-q {
+    color: #000;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-weight: 500;
+    font-size: 24px;
+    margin-top: 10px;
+}
 
 /* 다인 추가 파트 종료 */
