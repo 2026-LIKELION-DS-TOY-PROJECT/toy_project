@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>멋사대학교 - 시험후기 {% if test %}수정하기{% else %}작성하기{% endif %}</title>
+    
     <link rel="stylesheet" href="{% static 'css/reviewWrite.css' %}">
     <script src="{% static 'js/reviewWrite.js' %}" defer></script>
     <script src="{% static 'js/test_form.js' %}" defer></script>
 </head>
 <body>
 
+    {% include 'TestBack/header.html' %}
+    {% comment %}
     <header class="header">
         <img class="logo-img" src="{% static 'img/logo.svg' %}" alt="로고 이미지">
         <div class="banner">
@@ -24,6 +27,7 @@
             <img class="profile-picture" src="{% static 'img/profile_pic.svg' %}" alt="프로필 사진">
         </div>
     </header>
+    {% endcomment %}
 
     <main class="container">
         <div class="button-txt-wrapper">

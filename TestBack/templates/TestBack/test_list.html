@@ -98,6 +98,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>멋사대학교 - 시험 후기 게시판</title>
+    <link rel="stylesheet" href="{% static 'css/reviewWrite.css' %}">
     <link rel="stylesheet" href="{% static 'css/reviewEmpty.css' %}">
     <link rel="stylesheet" href="{% static 'css/reviewList.css' %}">
 </head>
@@ -118,8 +119,8 @@
         }
     </script>
 <body>
-
-    <header class="navbar">
+    {% include 'TestBack/header2.html' %}
+    {% comment %}<header class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <a href="{% url 'TestBack:test_list' %}">
@@ -145,7 +146,7 @@
                 <div><img src="{% static 'img/material-symbols_person.svg' %}" class="icon-user" width="25"></div>
             </div>
         </div>
-    </header>
+    </header>{% endcomment %}
 
     <div class="main-layout">
         
