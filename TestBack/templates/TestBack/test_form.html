@@ -13,21 +13,6 @@
 <body>
 
     {% include 'TestBack/header.html' %}
-    {% comment %}
-    <header class="header">
-        <img class="logo-img" src="{% static 'img/logo.svg' %}" alt="로고 이미지">
-        <div class="banner">
-            <span class="current-banner">게시판</span>
-            <span class="other-banner">강의실</span>
-            <span class="other-banner">시간표</span>
-            <span class="other-banner">학점계산기</span>
-        </div>
-        <div class="users-menu">
-            <img class="alert" src="{% static 'img/alert.svg' %}" alt="알림 이미지">
-            <img class="profile-picture" src="{% static 'img/profile_pic.svg' %}" alt="프로필 사진">
-        </div>
-    </header>
-    {% endcomment %}
 
     <main class="container">
         <div class="button-txt-wrapper">
@@ -125,13 +110,16 @@
                 </div>
             </div>
 
-            <!-- 난이도 줄글 -->
+            <!-- 시험정보 -->
+            <!-- [수정] id="title" name="title" → id="exam_info" name="exam_info" -->
+            <!-- [수정] maxlength 100 → 500 (안내 문구와 일치) -->
+            <!-- [수정] 초기값 test.title → test.exam_info -->
             <div class="form-group-full3">
                 <label for="exam_info">시험정보</label>
                 <div class="textarea-wrapper">
-                    <textarea id="title" name="title"
-                        maxlength="100"
-                        placeholder="최대 500자까지 입력 가능합니다." required>{{ test.title|default:'' }}</textarea>
+                    <textarea id="exam_info" name="exam_info"
+                        maxlength="500"
+                        placeholder="최대 500자까지 입력 가능합니다.">{{ test.exam_info|default:'' }}</textarea>
                     <span class="char-count">
                         <span id="current-chars1">{{ test.exam_info|length|default:0 }}</span>/500
                     </span>
