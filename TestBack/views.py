@@ -54,7 +54,14 @@ def test_create(request):
             )
             return redirect('TestBack:test_detail', pk=test.pk)
 
-        except IntegrityError:
+        except IntegrityError as e:
+            print(f"=== IntegrityError 발생 ===")
+            print(f"에러 내용: {e}")
+            print(f"user={request.user.id}")
+            print(f"course={course.id} / course.name={course.name}")
+            print(f"title={title}")
+            print(f"exam_info={exam_info}")
+            print(f"content={content}")
             return HttpResponse(
                 "<script>alert('⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.');history.back();</script>"
             )
@@ -268,3 +275,5 @@ def comment_like(request, comment_id):
         comment.likes.add(request.user)
     request.session['skip_view_count'] = True
     return redirect('TestBack:test_detail', pk=comment.test.pk)
+
+

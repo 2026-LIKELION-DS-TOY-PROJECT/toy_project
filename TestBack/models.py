@@ -70,8 +70,10 @@ class Test(models.Model):
         related_name='tests'
     )
 
-    exam_type = models.CharField(max_length=20, blank=True)
-    test_format = models.CharField(max_length=50, blank=True)
+    # 수정
+    exam_type = models.CharField(max_length=20, blank=True, null=True)
+    test_format = models.CharField(max_length=50, blank=True, null=True)
+    
     rating = models.PositiveIntegerField(default=3)
 
     title = models.CharField(max_length=200)
