@@ -66,10 +66,9 @@
                     </div>
 
                     <div class="type">
-                        <div class="heading">시험 유형</div>
+                        <div class="heading">시험 정보</div>
                         <div id="text" class="explain">
-                            <span>{{ test.exam_type }} - </span>
-                            <span>{{ test.test_format }}</span>
+                            {{ test.exam_info|linebreaksbr }}
                         </div>
                     </div>
                     <div class="overall">
