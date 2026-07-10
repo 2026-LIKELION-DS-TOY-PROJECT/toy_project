@@ -15,8 +15,7 @@ def test_create(request):
         professor_id = request.POST.get('professor')
         semester_id = request.POST.get('semester')
         subject_name = request.POST.get('subject')
-        # exam_type = request.POST.get('exam_type')
-        # test_format = request.POST.get('test_format')
+
         rating = request.POST.get('rating', 3)
         title = request.POST.get('title')
         exam_info = request.POST.get('exam_info', '')
@@ -44,8 +43,6 @@ def test_create(request):
                 professor=professor,
                 course=course,
                 semester=semester,
-                exam_type=exam_type,
-                test_format=test_format,
                 rating=int(rating),
                 title=title,
                 exam_info=exam_info,
@@ -59,14 +56,11 @@ def test_create(request):
             print(f"에러 내용: {e}")
             print(f"user={request.user.id}")
             print(f"course={course.id} / course.name={course.name}")
-            print(f"title={title}")
-            print(f"exam_info={exam_info}")
-            print(f"content={content}")
+
             return HttpResponse(
-                "<script>alert('⚠️ 이미 등록된 시험 정보이거나 중복된 데이터가 존재합니다.');history.back();</script>"
+                "<script>alert('⚠️ 이미 해당 과목의 후기를 작성하셨습니다.');history.back();</script>"
             )
 
-    # GET
     departments = Department.objects.all()
     professors = Professor.objects.select_related('department').all()
     semesters = Semester.objects.all()
@@ -108,6 +102,7 @@ def test_detail(request, pk):
 @login_required
 def test_update(request, pk):
     test = get_object_or_404(Test, pk=pk)
+
     if test.user != request.user:
         return redirect('TestBack:test_detail', pk=pk)
 
@@ -131,19 +126,19 @@ def test_update(request, pk):
         test.professor = professor
         test.course = course
         test.semester = semester
-        test.exam_type = request.POST.get('exam_type')
-        test.test_format = request.POST.get('test_format')
         test.rating = int(request.POST.get('rating', 3))
         test.title = request.POST.get('title')
         test.exam_info = request.POST.get('exam_info', '')
         test.content = request.POST.get('content')
+
         test.save()
+
         return redirect('TestBack:test_detail', pk=pk)
 
-    # GET
     departments = Department.objects.all()
     professors = Professor.objects.select_related('department').all()
     semesters = Semester.objects.all()
+
     return render(request, 'TestBack/test_form.html', {
         'test': test,
         'departments': departments,

@@ -71,8 +71,8 @@ class Test(models.Model):
     )
 
     # 수정
-    exam_type = models.CharField(max_length=20, blank=True, null=True)
-    test_format = models.CharField(max_length=50, blank=True, null=True)
+    #exam_type = models.CharField(max_length=20, blank=True, null=True)
+    #test_format = models.CharField(max_length=50, blank=True, null=True)
     
     rating = models.PositiveIntegerField(default=3)
 
